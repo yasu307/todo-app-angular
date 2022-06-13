@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Todo, EnumState } from '../todo/todo';
-import { Category, EnumColor } from '../category/category';
+import { Todo, EnumState } from '../todo';
+import { Category, EnumColor } from '../category';
 
 @Injectable({
   providedIn: 'root',

@@ -6,14 +6,12 @@ import { InMemoryDataService } from './models/in-memory-data/in-memory-data.serv
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { CategoryListComponent } from './components/category-list/category-list.component';
+import { TodoModule } from './todo/todo.module';
+import { CategoryModule } from './category/category.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoListComponent,
-    CategoryListComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +20,8 @@ import { CategoryListComponent } from './components/category-list/category-list.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false, delay: 500 }
     ),
+    TodoModule,
+    CategoryModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
