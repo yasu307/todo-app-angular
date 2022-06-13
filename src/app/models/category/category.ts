@@ -4,8 +4,8 @@ export interface Category {
   name:      string;
   slug:      string;
   color:     EnumColor;
-  updatedAt: string; // 後ほどDateに変更する
-  createdAt: string; // 後ほどDateに変更する
+  updatedAt: Date;
+  createdAt: Date;
 }
 
 // Colorクラス　EnumColorで用いられる

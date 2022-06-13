@@ -8,42 +8,60 @@ import { Category, EnumColor } from '../category/category';
 })
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
+    const defaultDate = new Date()
     const todos: Todo[] = [
       {
         id: 1,
         categoryId: 1,
-        title: "test title",
-        body: "test body",
+        title: "デザインをいい感じにする",
+        body: "ヘッダーのデザインをもっといい感じに",
         state: EnumState.TODO,
-        updatedAt: "2022/06/10",
-        createdAt: "2022/06/10",
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
       },
       {
         id: 2,
         categoryId: 2,
-        title: "second title",
-        body: "second body",
+        title: "Controllerの修正",
+        body: "Controller名をもっといい感じに",
         state: EnumState.WORKING,
-        updatedAt: "2022/06/10",
-        createdAt: "2022/06/10",
-      }
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
+      },
+      {
+        id: 3,
+        categoryId: 3,
+        title: "新しいDB環境の作成",
+        body: undefined,
+        state: EnumState.COMPLETED,
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
+      },
     ]
     const categories: Category[] = [
       {
         id: 1,
-        name: "フロントエンドエンジニア",
-        slug: "fornt",
+        name: "フロントエンド",
+        slug: "front",
         color: EnumColor.RED,
-        updatedAt: "2022/06/10",
-        createdAt: "2022/06/10",
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
       },
       {
         id: 2,
-        name: "バックエンドエンジニア",
+        name: "バックエンド",
         slug: "back",
+        color: EnumColor.GREEN,
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
+      },
+      {
+        id: 3,
+        name: "インフラ",
+        slug: "infra",
         color: EnumColor.BLUE,
-        updatedAt: "2022/06/10",
-        createdAt: "2022/06/10",
+        updatedAt: defaultDate,
+        createdAt: defaultDate,
       },
     ]
     return { todos, categories };

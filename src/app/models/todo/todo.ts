@@ -5,10 +5,10 @@ export interface Todo{
   id:         number;
   categoryId: Category["id"];
   title:      string;
-  body:       string;
+  body?:      string;
   state:      EnumState;
-  updatedAt:  string; // 後ほどDateに変更する
-  createdAt:  string; // 後ほどDateに変更する
+  updatedAt:  Date;
+  createdAt:  Date;
 }
 
 class State{
