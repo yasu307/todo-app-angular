@@ -45,3 +45,16 @@ export const EnumColor = {
 } as const;
 
 export type EnumColor = typeof EnumColor[keyof typeof EnumColor];
+
+// 引数として受け取ったCategoryのcolorプロパティにnumberが格納されていたら、
+// そのnumberをcodeに持つEnumColorに変換する
+//
+// バックエンドAPIから取得したJSONオブジェクトをCategory型に変換する際に用いる
+// APIから取得したJSONにはcolorのcodeが格納されている想定なため、この変換が必要になる
+export function codeToEnumColor(category: Category): Category {
+  const currentColor = category.color
+  if (typeof currentColor == "number") {
+    category.color = Object.values(EnumColor).find((color) => color.code == currentColor) ?? EnumColor.RED
+  }
+  return category
+}

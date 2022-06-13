@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Todo, EnumState } from '../todo';
-import { Category, EnumColor } from '../category';
+import { Todo } from '../todo';
+import { Category } from '../category';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +9,13 @@ import { Category, EnumColor } from '../category';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const defaultDate = new Date()
-    const todos: Todo[] = [
+    const todos = [
       {
         id: 1,
         categoryId: 1,
         title: "デザインをいい感じにする",
         body: "ヘッダーのデザインをもっといい感じに",
-        state: EnumState.TODO,
+        state: 1,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -24,7 +24,7 @@ export class InMemoryDataService implements InMemoryDbService {
         categoryId: 2,
         title: "Controllerの修正",
         body: "Controller名をもっといい感じに",
-        state: EnumState.WORKING,
+        state: 2,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -33,17 +33,17 @@ export class InMemoryDataService implements InMemoryDbService {
         categoryId: 3,
         title: "新しいDB環境の作成",
         body: undefined,
-        state: EnumState.COMPLETED,
+        state: 3,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
     ]
-    const categories: Category[] = [
+    const categories = [
       {
         id: 1,
         name: "フロントエンド",
         slug: "front",
-        color: EnumColor.RED,
+        color: 1,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -51,7 +51,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 2,
         name: "バックエンド",
         slug: "back",
-        color: EnumColor.GREEN,
+        color: 2,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -59,7 +59,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 3,
         name: "インフラ",
         slug: "infra",
-        color: EnumColor.BLUE,
+        color: 3,
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
