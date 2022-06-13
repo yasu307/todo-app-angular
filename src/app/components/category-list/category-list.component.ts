@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Category, EnumColor } from 'src/app/models/category';
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/models/category/category';
+import { CategoryService } from 'src/app/models/category/category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -7,28 +9,12 @@ import { Category, EnumColor } from 'src/app/models/category';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
-  categories: Category[] = [
-    {
-      id: 1,
-      name: "フロントエンドエンジニア",
-      slug: "fornt",
-      color: EnumColor.RED,
-      updatedAt: "2022/06/10",
-      createdAt: "2022/06/10",
-    },
-    {
-      id: 2,
-      name: "バックエンドエンジニア",
-      slug: "back",
-      color: EnumColor.BLUE,
-      updatedAt: "2022/06/10",
-      createdAt: "2022/06/10",
-    },
-  ]
+  categories$?: Observable<Category[]>
 
-  constructor() { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    this.categories$ = this.categoryService.getCategories()
   }
 
 }

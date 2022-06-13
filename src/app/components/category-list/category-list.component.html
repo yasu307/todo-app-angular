@@ -1,5 +1,5 @@
 
-<ul *ngFor="let category of categories">
+<ul *ngFor="let category of categories$ | async">
   <li>
     {{category | json}}
   </li>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EnumState, Todo } from '../../models/todo';
+import { Todo } from '../../models/todo/todo';
+import { TodoService } from 'src/app/models/todo/todo.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,30 +9,12 @@ import { EnumState, Todo } from '../../models/todo';
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
-  todos: Todo[] = [
-    {
-      id: 1,
-      categoryId: 1,
-      title: "test title",
-      body: "test body",
-      state: EnumState.TODO,
-      updatedAt: "2022/06/10",
-      createdAt: "2022/06/10",
-    },
-    {
-      id: 2,
-      categoryId: 2,
-      title: "second title",
-      body: "second body",
-      state: EnumState.WORKING,
-      updatedAt: "2022/06/10",
-      createdAt: "2022/06/10",
-    }
-  ]
+  todos$?: Observable<Todo[]>
 
-  constructor() { }
+  constructor(private todoService: TodoService) { }
 
   ngOnInit(): void {
+    this.todos$ = this.todoService.getTodos()
   }
 
 }
