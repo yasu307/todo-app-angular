@@ -3,58 +3,28 @@ export interface Category {
   id:        number;
   name:      string;
   slug:      string;
-  color:     EnumColor;
+  color:     Color;
   updatedAt: Date;
   createdAt: Date;
 }
 
-// Colorクラス　EnumColorで用いられる
-class Color {
+// カテゴリに設定されている色を表すinterface
+export interface Color {
   readonly code:  number;
-  readonly red:   number;
-  readonly green: number;
-  readonly blue:  number;
-
-  constructor(code: number, red: number, green: number, blue: number) {
-    this.code  = code;
-    this.red   = red;
-    this.green = green;
-    this.blue  = blue;
-  }
-
-  toString(){
-    return this.rgb
-  }
-
-  get rgb(){
-    return `RGB(${this.red}, ${this.green}, ${this.blue})`
+  readonly rgb: {
+    readonly red: number;
+    readonly green: number;
+    readonly blue: number;
   }
 }
 
-// Colorクラスを持つEnum
-// 通常の使い方: EnumColor.RED
-// indexに対応するEnumColorを取得する方法: Object.values(EnumColor).find((color) => color.code == idx)
-// EnumColorからindexを取得する方法: EnumColor.BLUE.code
-export const EnumColor = {
-  RED:     new Color(1, 255, 51, 51),
-  GREEN:   new Color(2, 51, 255, 51),
-  BLUE:    new Color(3, 51, 102, 255),
-  YELLOW:  new Color(4, 255, 255, 102),
-  AQUA:    new Color(5, 102, 255, 255),
-  FUCHSIA: new Color(6, 255, 102, 255),
+// Colorの選択肢
+// idxに対応するColorOptionを取得する方法: Object.values(ColorOption).find((color) => color.code == idx)
+export const ColorOptions = {
+  RED:     { code: 1, rgb: { red: 255, green: 51, blue: 51}},
+  GREEN:   { code: 2, rgb: { red: 51, green: 255, blue: 51 } },
+  BLUE:    { code: 3, rgb: { red: 51, green: 102, blue: 255 } },
+  YELLOW:  { code: 4, rgb: { red: 255, green: 255, blue: 102 } },
+  AQUA:    { code: 5, rgb: { red: 102, green: 255, blue: 255 } },
+  FUCHSIA: { code: 6, rgb: { red: 255, green: 102, blue: 255 } },
 } as const;
-
-export type EnumColor = typeof EnumColor[keyof typeof EnumColor];
-
-// 引数として受け取ったCategoryのcolorプロパティにnumberが格納されていたら、
-// そのnumberをcodeに持つEnumColorに変換する
-//
-// バックエンドAPIから取得したJSONオブジェクトをCategory型に変換する際に用いる
-// APIから取得したJSONにはcolorのcodeが格納されている想定なため、この変換が必要になる
-export function codeToEnumColor(category: Category): Category {
-  const currentColor = category.color
-  if (typeof currentColor == "number") {
-    category.color = Object.values(EnumColor).find((color) => color.code == currentColor) ?? EnumColor.RED
-  }
-  return category
-}

@@ -15,7 +15,10 @@ export class InMemoryDataService implements InMemoryDbService {
         categoryId: 1,
         title: "デザインをいい感じにする",
         body: "ヘッダーのデザインをもっといい感じに",
-        state: 1,
+        state: {
+          code: 1,
+          name: "TODO",
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -24,7 +27,10 @@ export class InMemoryDataService implements InMemoryDbService {
         categoryId: 2,
         title: "Controllerの修正",
         body: "Controller名をもっといい感じに",
-        state: 2,
+        state: {
+          code: 2,
+          name: "進行中",
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -33,7 +39,10 @@ export class InMemoryDataService implements InMemoryDbService {
         categoryId: 3,
         title: "新しいDB環境の作成",
         body: undefined,
-        state: 3,
+        state: {
+          code: 3,
+          name: "完了",
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -43,7 +52,14 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 1,
         name: "フロントエンド",
         slug: "front",
-        color: 1,
+        color: {
+          code: 1,
+          rgb: {
+            red:   255,
+            green: 51,
+            blue:  51
+          }
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -51,7 +67,14 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 2,
         name: "バックエンド",
         slug: "back",
-        color: 2,
+        color: {
+          code: 2,
+          rgb: {
+            red:   51,
+            green: 255,
+            blue:  51
+          }
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
@@ -59,7 +82,14 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 3,
         name: "インフラ",
         slug: "infra",
-        color: 3,
+        color: {
+          code: 3,
+          rgb: {
+            red:   51,
+            green: 102,
+            blue:  255
+          }
+        },
         updatedAt: defaultDate,
         createdAt: defaultDate,
       },
