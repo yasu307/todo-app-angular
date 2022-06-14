@@ -1,0 +1,6 @@
+
+<ul *ngFor="let category of categories$ | async">
+  <li>
+    {{category | json}}
+  </li>
+</ul>

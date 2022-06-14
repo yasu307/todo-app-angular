@@ -1,0 +1,5 @@
+<ul *ngFor="let todo of todos$ | async">
+  <li>
+    {{todo | json}}
+  </li>
+</ul>
