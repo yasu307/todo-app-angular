@@ -1,0 +1,42 @@
+.todo-list{
+  padding-top: 0 !important;
+}
+
+.todo-item{
+  &__title{
+    font-size: 1.5em !important;
+  }
+
+  &__sub-info{
+    margin-left: 0.25em !important;
+    display:     flex !important;
+  }
+
+  &__status {
+    display: inline-block;
+    width:   5em;
+    margin:  auto 0;
+    color:   gray;
+  }
+
+  &__category{
+    display: flex;
+    margin:  auto 0;
+  }
+
+  &__category-color{
+    width:     auto;
+    height:    auto;
+    margin:    auto 0;
+    font-size: 1em;
+  }
+
+  &__category-slug{
+    margin: auto 0;
+    color:  gray;
+  }
+
+  &__body{
+    margin-left: 0.25em !important;
+  }
+}
