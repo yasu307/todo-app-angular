@@ -1,25 +1,35 @@
-<h2>Todo 一覧</h2>
 <!-- 全てのtodoのリスト -->
-<mat-list class="todo-list" *ngFor="let todo of (todos$ | async)">
-  <mat-divider></mat-divider>
-  <mat-list-item class="todo-item">
-  <!-- タイトル -->
-  <p class="todo-item__title" matLine>{{todo.title}}</p>
-  <!-- 補足情報 -->
-  <p class="todo-item__sub-info" matLine>
-    <!-- ステータス -->
-    <span class="todo-item__status">{{todo.state.name}}</span>
-    <!-- 対応するカテゴリ -->
-    <span class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, categories$|async) as category" >
-      <!-- カテゴリの色 -->
-      <mat-icon class="todo-item__category-color" [style.color]="category.color | colorToRgb">circle</mat-icon>
-      <!-- カテゴリのスラグ -->
-      <span class="todo-item__category-slug">{{category.slug}}</span>
-    </span>
-  </p>
-  <!-- 本文 -->
-  <p class="todo-item__body" matLine *ngIf="todo.body">{{todo.body}}</p>
-  </mat-list-item>
-</mat-list>
-<mat-divider></mat-divider>
-
+<div class="todo-list-component">
+  <h2 class="todo-list-component__title">Todo 一覧</h2>
+  <mat-list class="todo-list-component__todo-list">
+    <mat-divider></mat-divider>
+    <mat-list-item class="todo-item" *ngFor="let todo of (todos$ | async)">
+      <!-- タイトル -->
+      <p class="todo-item__title" matLine>{{todo.title}}</p>
+      <!-- 補足情報 -->
+      <p class="todo-item__sub-info" matLine>
+        <!-- ステータス -->
+        <span class="todo-item__status">{{todo.state.name}}</span>
+        <!-- 対応するカテゴリ -->
+        <span class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, categories$|async) as category" >
+          <!-- カテゴリの色 -->
+          <fa-icon class="todo-item__category-color" [icon]="faCircle" [style.color]="category.color | colorToRgb">circle</fa-icon>
+          <!-- カテゴリのスラグ -->
+          <span class="todo-item__category-slug">{{category.slug}}</span>
+        </span>
+      </p>
+      <!-- 本文 -->
+      <p class="todo-item__body" matLine *ngIf="todo.body">{{todo.body}}</p>
+      <!-- フッター -->
+      <p class="todo-item__footer" matLine>
+        <!-- 編集ボタン -->
+        <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditComponent(todo)"></fa-icon>
+        <!-- 削除ボタン -->
+        <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="showDeleteComponent(todo)"></fa-icon>
+      </p>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+  <!-- 追加ボタン -->
+  <fa-icon class="todo-list-component__store-btn" [icon]="faPlusCircle" (click)="showStoreComponent()"></fa-icon>
+<!-- </div> -->
