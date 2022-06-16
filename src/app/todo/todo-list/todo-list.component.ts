@@ -6,6 +6,8 @@ import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { TodoStoreComponent } from '../todo-store/todo-store.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -23,7 +25,8 @@ export class TodoListComponent implements OnInit {
 
   constructor(
     private todoService:     TodoService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    public  dialog:          MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +48,10 @@ export class TodoListComponent implements OnInit {
   }
 
   showStoreComponent() {
-    console.log("show store component")
+    const storeDialogRef = this.dialog.open(TodoStoreComponent, {})
+    storeDialogRef.afterClosed().subscribe(
+      (result) => console.log(result)
+    )
   }
 
 }
