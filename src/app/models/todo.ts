@@ -18,9 +18,13 @@ export interface State{
 }
 
 // Stateの選択肢
-// idxに対応するStateを取得する方法: Object.values(StateOptions).find((state) => state.code == idx)
 export const StateOptions = {
   TODO:      { code: 1, name: "TODO" },
   WORKING:   { code: 2, name: "進行中" },
   COMPLETED: { code: 3, name: "完了" },
 } as const;
+
+// state.codeからstateを取得するメソッド
+export function getStateFromCode(code: number): State | undefined {
+  return Object.values(StateOptions).find((state) => state.code == code)
+}

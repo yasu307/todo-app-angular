@@ -1,0 +1,9 @@
+:host {
+  // 色を表す変数を宣言する
+  --color: rgb(255, 255, 255);
+}
+
+// --color変数に指定されている色にラジオボタンの要素の背景を変更する
+:host ::ng-deep .mat-radio-label-content{
+  background-color: var(--color);
+}

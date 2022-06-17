@@ -7,7 +7,7 @@ import { CategoryService } from 'src/app/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
-import { TodoStoreComponent } from '../todo-store/todo-store.component';
+import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,7 +15,7 @@ import { TodoStoreComponent } from '../todo-store/todo-store.component';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  todos$?:      Observable<Todo[]>
+  todos$?:      Observable<Todo[]>     = this.todoService.allTodo$
   categories$?: Observable<Category[]>
 
   faEdit       = faEdit
@@ -30,28 +30,27 @@ export class TodoListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.todos$      = this.todoService.getTodos()
+    this.todoService.fetchAllTodo()
     this.categories$ = this.categoryService.getCategories()
   }
 
   // idから対応するカテゴリを取得するメソッド
+  // テンプレートでtodo-item__categoryを表示する際に用いる
   getCategoryById(id: number, categories: Category[]| null): Category | undefined {
     return categories?.find((c: Category) => c.id == id)
   }
 
-  showEditComponent(todo: Todo){
-    console.log("show edit component")
+  // todo更新ダイアログを表示する
+  showEditDialog(todo: Todo){
+    const editDialogRef = this.dialog.open(TodoFormDialogComponent, {data: todo})
   }
 
   showDeleteComponent(todo: Todo) {
     console.log("show delete component")
   }
 
-  showStoreComponent() {
-    const storeDialogRef = this.dialog.open(TodoStoreComponent, {})
-    storeDialogRef.afterClosed().subscribe(
-      (result) => console.log(result)
-    )
+  // todo追加ダイアログを表示する
+  showStoreDialog() {
+    const storeDialogRef = this.dialog.open(TodoFormDialogComponent, {})
   }
-
 }
