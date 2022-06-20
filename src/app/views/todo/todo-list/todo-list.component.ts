@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../../models/todo';
 import { TodoService } from '../todo.service';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
+import { MyErrorHandler } from 'src/app/utility/error-handler';
 
 @Component({
   selector: 'app-todo-list',
@@ -27,6 +28,7 @@ export class TodoListComponent implements OnInit {
     private todoService:     TodoService,
     private categoryService: CategoryService,
     public  dialog:          MatDialog,
+    private errorHandler:    MyErrorHandler,
   ) { }
 
   ngOnInit(): void {
@@ -45,8 +47,16 @@ export class TodoListComponent implements OnInit {
     const editDialogRef = this.dialog.open(TodoFormDialogComponent, { data: todo, width: '700px'})
   }
 
-  showDeleteComponent(todo: Todo) {
-    console.log("show delete component")
+  deleteComponent(todoId: number) {
+    this.todoService.deleteTodo(todoId).pipe(
+      // 削除が成功したら
+      tap((deletedTodo: Todo) => {
+        // allTodoSourceを更新する
+        this.todoService.fetchAllTodo()
+      }),
+      // エラーが発生したら処理をする
+      catchError(this.errorHandler.handleError<Todo>('deleteTodo'))
+    ).subscribe()
   }
 
   // todo追加ダイアログを表示する

@@ -25,7 +25,7 @@
         <!-- 更新ボタン -->
         <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditDialog(todo)"></fa-icon>
         <!-- 削除ボタン -->
-        <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="showDeleteComponent(todo)"></fa-icon>
+        <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="deleteComponent(todo.id)"></fa-icon>
       </p>
       <mat-divider></mat-divider>
     </mat-list-item>

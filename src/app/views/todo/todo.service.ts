@@ -44,4 +44,10 @@ export class TodoService {
   updateTodo(todo: Todo): Observable<Todo>{
     return this.http.put<Todo>(this.todosUrl, todo, this.httpOptions)
   }
+
+  // todoを削除するコマンド
+  deleteTodo(todoId: number): Observable<Todo> {
+    const url = `${this.todosUrl}/${todoId}`
+    return this.http.delete<Todo>(url, this.httpOptions)
+  }
 }
