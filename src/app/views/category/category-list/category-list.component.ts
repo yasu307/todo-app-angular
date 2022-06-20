@@ -9,12 +9,12 @@ import { CategoryService } from '../category.service';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
-  categories$?: Observable<Category[]>
+  allCategory$: Observable<Category[]> = this.categoryService.allCategory$
 
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
-    this.categories$ = this.categoryService.getCategories()
+    this.categoryService.fetchAllCategory()
   }
 
 }

@@ -4,9 +4,9 @@
 <form [formGroup]="todoFormGroup" class="todo-form">
   <!-- カテゴリ　ラジオボタン -->
   <p>
-    <mat-radio-group *ngIf="(categories$ | async) as categories" formControlName="categoryId">
+    <mat-radio-group *ngIf="(allCategory$ | async) as allCategory" formControlName="categoryId">
       <mat-label class="todo-form__category-label">カテゴリ</mat-label>
-      <mat-radio-button class="todo-form__category-item" *ngFor="let category of categories" [value]="category.id" [style.--color]="category.color | colorToRgb">{{category.slug}}</mat-radio-button>
+      <mat-radio-button class="todo-form__category-item" *ngFor="let category of allCategory" [value]="category.id" [style.--color]="category.color | colorToRgb">{{category.slug}}</mat-radio-button>
     </mat-radio-group>
     <mat-error *ngIf="todoFormGroup.get('categoryId')?.hasError('required')">
       カテゴリは必須です

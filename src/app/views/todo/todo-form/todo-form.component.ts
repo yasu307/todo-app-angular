@@ -15,7 +15,7 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
 })
 export class TodoFormComponent implements OnInit {
   todoFormGroup!: FormGroup
-  categories$?:   Observable<Category[]>
+  allCategory$?:  Observable<Category[]> = this.categoryService.allCategory$
 
   // stateOptionsの選択肢を持つ配列
   stateOptArray = Object.values(StateOptions)
@@ -51,7 +51,7 @@ export class TodoFormComponent implements OnInit {
     // そのため、TODOがすでに選択されていて、操作ができない状態になる
     if (!this.selectedTodo) this.todoFormGroup.controls["stateCode"].disable()
 
-    this.categories$ = this.categoryService.getCategories()
+    this.categoryService.fetchAllCategory()
   }
 
   // todoを追加するメソッド
