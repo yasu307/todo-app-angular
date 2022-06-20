@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CategoryService } from 'src/app/views/category/category.service';
-import { Observable, tap, catchError } from 'rxjs';
+import { Observable, tap, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { getStateFromCode, Todo } from 'src/app/models/todo';
 import { TodoService } from '../todo.service';
@@ -15,7 +15,13 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
 })
 export class TodoFormComponent implements OnInit {
   todoFormGroup!: FormGroup
-  allCategory$?:  Observable<Category[]> = this.categoryService.allCategory$
+
+  // 一度しか取得しないallCategory
+  // 以前にCategoryService.featchAllCategoryを実行していれば、その時に取得した値が
+  // 以前に実行していなければ、このComponentのngOnInitで実行されるfetchAllCategoryの結果が格納される
+  //
+  // Form作成後にこの値が更新されるとカテゴリのラジオボタンについているAutoFocusが消えてしまうため、このような処理にした
+  allCategoryTakeOnce$?:  Observable<Category[]> = this.categoryService.allCategory$.pipe(take(1))
 
   // stateOptionsの選択肢を持つ配列
   stateOptArray = Object.values(StateOptions)
