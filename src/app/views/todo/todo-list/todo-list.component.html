@@ -1,7 +1,7 @@
 <!-- 全てのtodoのリスト -->
 <div class="todo-list-component">
   <h2 class="todo-list-component__title">Todo 一覧</h2>
-  <mat-card class="todo-item" *ngFor="let todo of (todos$ | async)">
+  <mat-card class="todo-item" *ngFor="let todo of (allTodo$ | async)">
     <!-- タイトル -->
     <mat-card-title class="todo-item__title">{{todo.title}}</mat-card-title>
     <!-- 補足情報 -->

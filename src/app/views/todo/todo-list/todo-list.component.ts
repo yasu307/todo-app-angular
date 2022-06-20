@@ -16,7 +16,7 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  todos$?:       Observable<Todo[]>     = this.todoService.allTodo$
+  allTodo$?:     Observable<Todo[]>     = this.todoService.allTodo$
   allCategory$?: Observable<Category[]> = this.categoryService.allCategory$
 
   faEdit       = faEdit

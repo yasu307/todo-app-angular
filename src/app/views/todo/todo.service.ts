@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Todo } from '../../models/todo';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TodoService {
   // allTodoを格納するSubject
-  private allTodoSource = new Subject<Todo[]>()
+  private allTodoSource = new ReplaySubject<Todo[]>(1)
 
   private todosUrl = "api/todos"
   httpOptions = {
