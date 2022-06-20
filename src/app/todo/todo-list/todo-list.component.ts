@@ -42,7 +42,7 @@ export class TodoListComponent implements OnInit {
 
   // todo更新ダイアログを表示する
   showEditDialog(todo: Todo){
-    const editDialogRef = this.dialog.open(TodoFormDialogComponent, {data: todo})
+    const editDialogRef = this.dialog.open(TodoFormDialogComponent, { data: todo, width: '700px'})
   }
 
   showDeleteComponent(todo: Todo) {
@@ -51,6 +51,6 @@ export class TodoListComponent implements OnInit {
 
   // todo追加ダイアログを表示する
   showStoreDialog() {
-    const storeDialogRef = this.dialog.open(TodoFormDialogComponent, {})
+    const storeDialogRef = this.dialog.open(TodoFormDialogComponent, { width: '700px'})
   }
 }

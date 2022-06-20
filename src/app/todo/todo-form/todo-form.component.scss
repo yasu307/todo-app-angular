@@ -1,9 +1,39 @@
 :host {
   // 色を表す変数を宣言する
   --color: rgb(255, 255, 255);
+
+  display: inline-block;
+  width: 100%;
 }
 
 // --color変数に指定されている色にラジオボタンの要素の背景を変更する
 :host ::ng-deep .mat-radio-label-content{
   background-color: var(--color);
+}
+
+.todo-form{
+  &__category-label{
+    display: block;
+  }
+
+  &__category-item{
+    margin-right: 10px;
+  }
+
+  &__title{
+    width: 80%;
+  }
+
+  &__body{
+    width: 80%;
+  }
+
+  &__state-label {
+    display: block;
+  }
+
+  &__state-item{
+    margin-right: 10px;
+  }
+
 }

@@ -1,20 +1,22 @@
 <!-- ページタイトル -->
 <h2>{{pageTitle}}</h2>
 <!-- フォーム -->
-<form [formGroup]="todoFormGroup">
+<form [formGroup]="todoFormGroup" class="todo-form">
   <!-- カテゴリ　ラジオボタン -->
-  <div>
+  <p>
     <mat-radio-group *ngIf="(categories$ | async) as categories" formControlName="categoryId">
-      <mat-radio-button *ngFor="let category of categories" [value]="category.id" [style.--color]="category.color | colorToRgb">{{category.slug}}</mat-radio-button>
+      <mat-label class="todo-form__category-label">カテゴリ</mat-label>
+      <mat-radio-button class="todo-form__category-item" *ngFor="let category of categories" [value]="category.id" [style.--color]="category.color | colorToRgb">{{category.slug}}</mat-radio-button>
     </mat-radio-group>
     <mat-error *ngIf="todoFormGroup.get('categoryId')?.hasError('required')">
       カテゴリは必須です
     </mat-error>
-  </div>
+  </p>
   <!-- タイトル input text -->
-  <div>
-    <mat-form-field>
-      <input type="text" matInput matType="text" formControlName="title" placeholder="タイトル">
+  <p>
+    <mat-form-field class="todo-form__title">
+      <mat-label>タイトル</mat-label>
+      <input type="text" matInput matType="text" formControlName="title">
     </mat-form-field>
     <mat-error *ngIf="todoFormGroup.get('title')?.hasError('required')">
       タイトルは必須です
@@ -22,21 +24,23 @@
     <mat-error *ngIf="todoFormGroup.get('title')?.hasError('maxlength')">
       255文字以内で入力してください
     </mat-error>
-  </div>
+  </p>
   <!-- 本文 textarea -->
-  <div><mat-form-field>
-    <textarea matInput formControlName="body" placeholder="本文"></textarea>
-  </mat-form-field></div>
+  <p><mat-form-field class="todo-form__body">
+    <mat-label>本文</mat-label>
+    <textarea matInput formControlName="body"></textarea>
+  </mat-form-field></p>
   <!-- ステータス　ラジオボタン -->
   <!-- valueではstate.codeを扱っている -->
-  <div>
+  <p>
     <mat-radio-group formControlName="stateCode">
-      <mat-radio-button *ngFor="let state of stateOptArray" [value]="state.code">{{state.name}}</mat-radio-button>
+      <mat-label class="todo-form__state-label">ステータス</mat-label>
+      <mat-radio-button class="todo-form__state-item" *ngFor="let state of stateOptArray" [value]="state.code">{{state.name}}</mat-radio-button>
     </mat-radio-group>
     <mat-error *ngIf="todoFormGroup.get('stateCode')?.hasError('required')">
       ステータスは必須です
     </mat-error>
-  </div>
+  </p>
   <!-- ボタン 追加フォームの場合 -->
   <button *ngIf="!selectedTodo" [disabled]="todoFormGroup.invalid" (click)="addTodo()" color="primary" mat-raised-button>追加</button>
   <!-- ボタン　更新フォームの場合 -->
