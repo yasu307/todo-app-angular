@@ -1,3 +1,5 @@
+import { Pipe, PipeTransform } from "@angular/core";
+
 // カテゴリを表すinterface
 export interface Category {
   id:        number;
@@ -28,3 +30,12 @@ export const ColorOptions = {
   AQUA:    { code: 5, rgb: { red: 102, green: 255, blue: 255 } },
   FUCHSIA: { code: 6, rgb: { red: 255, green: 102, blue: 255 } },
 } as const;
+
+// ColorからRGBを表す文字列に変換するパイプ
+// todoを表示するテンプレートとcategoryを表示するテンプレートのどちらでも必要になるためパイプとして切り出した
+@Pipe({name: "colorToRgb"})
+export class ColorToRgbPipe implements PipeTransform{
+  transform(color: Color): string {
+    return `RGB(${color.rgb.red}, ${color.rgb.green}, ${color.rgb.blue})`
+  }
+}
