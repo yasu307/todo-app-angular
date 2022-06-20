@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Todo } from '../models/todo';
 import { Observable, tap, catchError, of, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class TodoService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
 
   // 全てのtodoを返すクエリ
   get allTodo$(): Observable<Todo[]> {
@@ -62,8 +66,10 @@ export class TodoService {
   // エラーの処理
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.log(`handle error\n${JSON.stringify(error)}`)
-      // TODO: toastを使いエラーが発生したことをユーザに伝える
+      // console.log(`handle error\n${JSON.stringify(error)}`)
+
+      // toastを使いエラーが発生したことをユーザに伝える
+      this.snackBar.open(`${operation} failed: ${error.body.error}`, '', {duration: 4000})
 
       // 引数で受け取ったresultを返す
       return of(result as T);
