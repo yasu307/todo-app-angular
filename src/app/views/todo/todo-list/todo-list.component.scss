@@ -2,47 +2,34 @@
   // store-btnをcontentsエリアに含めるように
   display: flow-root;
 
-  width: 1000px;
-  margin-right: auto;
-
-  &__title{
-    margin: 10px 0 10px 0;
-  }
+  width:     85%;
+  max-width: 700px;
+  margin:    0 auto;
 
   &__store-btn{
     // todo-listに粘着表示するように
     position: sticky;
-    bottom: 40px;
-    right: 40px;
+    bottom:   25px;
+    right:    25px;
 
-    float: right;
-    margin: 40px;
-    color: black;
+    float:     right;
+    margin:    25px;
+    color:     black;
     font-size: 2.5em;
-  }
-
-  &__todo-list{
-    // mat-listで設定されているpaddingを削除
-    padding: 0;
   }
 }
 
 .todo-item{
-
-  &__title{
-    font-size: 1.5em !important;
-  }
+  margin-bottom: 10px;
 
   &__sub-info{
-    margin-left: 0.5em !important;
-    display:     flex !important;
+    display: flex;
+    margin:  0 0 8px 4px;
   }
 
   &__status {
-    display: inline-block;
-    width:   5em;
+    width:   56px;
     margin:  auto 0;
-    color:   gray;
   }
 
   &__category{
@@ -51,38 +38,29 @@
   }
 
   &__category-color{
-    width:     auto;
-    height:    auto;
-    margin:    auto 0.25em auto 0;
-    font-size: 1em;
-  }
-
-  &__category-slug{
-    margin: auto 0;
-    color:  gray;
+    margin-right: 2px;
   }
 
   &__body{
-    margin-left: 0.5em !important;
-    white-space: pre-wrap !important;
+    margin:      0 0 8px 4px;
+    white-space: pre-wrap;
   }
 
   &__footer {
-    margin-left: 0.5em !important;
+    margin:          0 !important;
+    // 初期設定されているpaddingを取り除く
+    padding-top:     0;
+    justify-content: end;
+    display:         flex;
   }
 
   &__edit-btn {
     font-size: 1.25em;
-    margin-right: 0.5em;
   }
 
   &__delete-btn {
-    font-size: 1.25em;
+    margin-left: 16px;
+    font-size:   1.25em;
   }
 }
 
-// bodyがある場合とそうでない場合で適用されるpadding,heightが違うため、統一する
-:host ::ng-deep .mat-list-item-content {
-  height: auto !important;
-  padding: 10px !important;
-}

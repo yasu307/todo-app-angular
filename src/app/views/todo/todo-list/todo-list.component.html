@@ -1,35 +1,31 @@
 <!-- 全てのtodoのリスト -->
 <div class="todo-list-component">
   <h2 class="todo-list-component__title">Todo 一覧</h2>
-  <mat-list class="todo-list-component__todo-list">
-    <mat-divider></mat-divider>
-    <mat-list-item class="todo-item" *ngFor="let todo of (todos$ | async)">
-      <!-- タイトル -->
-      <p class="todo-item__title" matLine>{{todo.title}}</p>
-      <!-- 補足情報 -->
-      <p class="todo-item__sub-info" matLine>
-        <!-- ステータス -->
-        <span class="todo-item__status">{{todo.state.name}}</span>
-        <!-- 対応するカテゴリ -->
-        <span class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, categories$|async) as category" >
-          <!-- カテゴリの色 -->
-          <fa-icon class="todo-item__category-color" [icon]="faCircle" [style.color]="category.color | colorToRgb"></fa-icon>
-          <!-- カテゴリのスラグ -->
-          <span class="todo-item__category-slug">{{category.slug}}</span>
-        </span>
+  <mat-card class="todo-item" *ngFor="let todo of (todos$ | async)">
+    <!-- タイトル -->
+    <mat-card-title class="todo-item__title">{{todo.title}}</mat-card-title>
+    <!-- 補足情報 -->
+    <mat-card-subtitle class="todo-item__sub-info">
+      <!-- ステータス -->
+      <p class="todo-item__status">{{todo.state.name}}</p>
+      <!-- 対応するカテゴリ -->
+      <p class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, categories$|async) as category" >
+        <!-- カテゴリの色 -->
+        <fa-icon class="todo-item__category-color" [icon]="faCircle" [style.color]="category.color | colorToRgb"></fa-icon>
+        <!-- カテゴリのスラグ -->
+        <span class="todo-item__category-slug">{{category.slug}}</span>
       </p>
-      <!-- 本文 -->
-      <p class="todo-item__body" matLine *ngIf="todo.body">{{todo.body}}</p>
-      <!-- フッター -->
-      <p class="todo-item__footer" matLine>
-        <!-- 更新ボタン -->
-        <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditDialog(todo)"></fa-icon>
-        <!-- 削除ボタン -->
-        <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="deleteComponent(todo.id)"></fa-icon>
-      </p>
-      <mat-divider></mat-divider>
-    </mat-list-item>
-  </mat-list>
+    </mat-card-subtitle>
+    <!-- 本文 -->
+    <mat-card-content class="todo-item__body" *ngIf="todo.body">{{todo.body}}</mat-card-content>
+    <!-- フッター -->
+    <mat-card-actions class="todo-item__footer">
+      <!-- 更新ボタン -->
+      <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditDialog(todo)"></fa-icon>
+      <!-- 削除ボタン -->
+      <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="deleteComponent(todo.id)"></fa-icon>
+    </mat-card-actions>
+  </mat-card>
   <!-- 追加ボタン -->
   <fa-icon class="todo-list-component__store-btn" [icon]="faPlusCircle" (click)="showStoreDialog()"></fa-icon>
 </div>
