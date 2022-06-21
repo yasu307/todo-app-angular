@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Category } from '../../models/category';
@@ -11,6 +11,9 @@ export class CategoryService {
   private allCategorySource = new ReplaySubject<Category[]>(1)
 
   private categoriesUrl = "api/categories"
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +29,15 @@ export class CategoryService {
         this.allCategorySource.next(fetchResult)
       }
     )
+  }
+
+  // カテゴリを追加するコマンド
+  addCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions)
+  }
+
+  // カテゴリを更新するコマンド
+  updateCategory(category: Category): Observable<Category> {
+    return this.http.put<Category>(this.categoriesUrl, category, this.httpOptions)
   }
 }

@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Category, ColorOptions } from 'src/app/models/category';
+import { Category, ColorOptions, getColorFromCode } from 'src/app/models/category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CategoryService } from '../category.service';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import { tap, catchError } from 'rxjs';
+import { MyErrorHandler } from 'src/app/utility/error-handler';
 
 @Component({
   selector: 'app-category-form',
@@ -28,6 +30,7 @@ export class CategoryFormComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
+    private errorHandler:    MyErrorHandler,
   ) { }
 
   ngOnInit(): void {
@@ -43,10 +46,61 @@ export class CategoryFormComponent implements OnInit {
   }
 
   addCategory() {
-    console.log("add category")
+    if (!this.ctgFormGroup.invalid) {
+      // formで指定された値をもつカテゴリを作成する
+      const categoryFromFormVal: Category = this.createCategoryFromFormVal()
+      // DBにカテゴリを追加する
+      this.categoryService.addCategory(categoryFromFormVal).pipe(
+        // 追加が成功したら
+        tap((addedCategory: Category) => {
+          // allCategorySourceを更新する
+          this.categoryService.fetchAllCategory()
+        }),
+        // エラーが発生したら処理をする
+        catchError(this.errorHandler.handleError<Category>('addCategory'))
+      ).subscribe(
+        // 保存が終了したのち
+        (resp) => {
+          // categoryFormDialogComponentに終了したことを伝える
+          this.isFinishedEvent.emit(true)
+        }
+      )
+    }
   }
 
   updateCategory() {
-    console.log("update category")
+    if (!this.ctgFormGroup.invalid) {
+      // formで指定された値をもつカテゴリを作成する
+      const categoryFromFormVal: Category = this.createCategoryFromFormVal()
+      // DBにてカテゴリを更新する
+      this.categoryService.updateCategory(categoryFromFormVal).pipe(
+        // 更新が成功したら
+        tap((updatedCategory: Category) => {
+          // allCategorySourceを更新する
+          this.categoryService.fetchAllCategory()
+        }),
+        // エラーが発生したら処理をする
+        catchError(this.errorHandler.handleError<Category>('updateCategory'))
+      ).subscribe(
+        // 保存が終了したのち
+        (resp) => {
+          // categoryFormDialogComponentに終了したことを伝える
+          this.isFinishedEvent.emit(true)
+        }
+      )
+    }
+  }
+
+  // Formの値をもつカテゴリを作成する
+  createCategoryFromFormVal(): Category {
+    let categoryFromForm = {
+      id:        this.selectedCategory?.id,
+      name:      this.ctgFormGroup.value.name,
+      slug:      this.ctgFormGroup.value.slug,
+      color:     getColorFromCode(this.ctgFormGroup.value.colorCode),
+      updatedAt: this.selectedCategory?.updatedAt ?? new Date(),
+      createdAt: this.selectedCategory?.createdAt ?? new Date(),
+    } as Category
+    return categoryFromForm
   }
 }
