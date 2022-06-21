@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Todo } from '../models/todo';
-import { Observable, tap, catchError, of, Subject } from 'rxjs';
+import { Observable, tap, catchError, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MyErrorHandler } from '../utility/error-handler';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class TodoService {
   };
 
   constructor(
-    private http: HttpClient,
-    private snackBar: MatSnackBar
+    private http:         HttpClient,
+    private errorHandler: MyErrorHandler,
   ) { }
 
   // 全てのtodoを返すクエリ
@@ -46,7 +46,7 @@ export class TodoService {
         this.fetchAllTodo()
       }),
       // エラーが発生したら処理をする
-      catchError(this.handleError<Todo>('addTodo'))
+      catchError(this.errorHandler.handleError<Todo>('addTodo'))
     )
   }
 
@@ -59,20 +59,7 @@ export class TodoService {
         this.fetchAllTodo()
       }),
       // エラーが発生したら処理をする
-      catchError(this.handleError<Todo>('updateTodo'))
+      catchError(this.errorHandler.handleError<Todo>('updateTodo'))
     )
-  }
-
-  // エラーの処理
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // console.log(`handle error\n${JSON.stringify(error)}`)
-
-      // toastを使いエラーが発生したことをユーザに伝える
-      this.snackBar.open(`${operation} failed: ${error.body.error}`, '', {duration: 4000})
-
-      // 引数で受け取ったresultを返す
-      return of(result as T);
-    };
   }
 }
