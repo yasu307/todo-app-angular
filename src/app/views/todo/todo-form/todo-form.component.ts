@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { CategoryService } from 'src/app/category/category.service';
+import { CategoryService } from 'src/app/views/category/category.service';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { getStateFromCode, Todo } from 'src/app/models/todo';

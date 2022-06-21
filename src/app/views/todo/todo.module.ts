@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { MatListModule } from '@angular/material/list'
-import { PipeModule } from '../pipe/pipe.module';
+import { PipeModule } from '../../pipe/pipe.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TodoFormDialogComponent } from './todo-form-dialog/todo-form-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';

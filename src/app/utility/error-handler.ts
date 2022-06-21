@@ -1,5 +1,5 @@
 import { Observable, of } from "rxjs";
-import { SnackBar } from "../snack-bar";
+import { SnackBar } from "../views/utility/snack-bar";
 import { Injectable } from "@angular/core";
 
 @Injectable({

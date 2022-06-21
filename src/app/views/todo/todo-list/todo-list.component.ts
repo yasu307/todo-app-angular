@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../../models/todo';
+import { Todo } from '../../../models/todo';
 import { TodoService } from '../todo.service';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/models/category';
-import { CategoryService } from 'src/app/category/category.service';
+import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';

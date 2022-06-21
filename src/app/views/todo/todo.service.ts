@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Todo } from '../models/todo';
+import { Todo } from '../../models/todo';
 import { Observable, tap, catchError, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MyErrorHandler } from '../utility/error-handler';
+import { MyErrorHandler } from '../../utility/error-handler';
 
 @Injectable({
   providedIn: 'root'
