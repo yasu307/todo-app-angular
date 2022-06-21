@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CategoryService } from 'src/app/views/category/category.service';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { getStateFromCode, Todo } from 'src/app/models/todo';
 import { TodoService } from '../todo.service';
 import { StateOptions } from 'src/app/models/todo';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MyErrorHandler } from 'src/app/utility/error-handler';
 
 @Component({
   selector: 'app-todo-form',
@@ -31,6 +32,7 @@ export class TodoFormComponent implements OnInit {
   constructor(
     private todoService:     TodoService,
     private categoryService: CategoryService,
+    private errorHandler:    MyErrorHandler,
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +61,15 @@ export class TodoFormComponent implements OnInit {
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにtodoを追加する
-      this.todoService.addTodo(todoFromFormVal).subscribe(
+      this.todoService.addTodo(todoFromFormVal).pipe(
+        // 追加が成功したら
+        tap((addedTodo: Todo) => {
+          // allTodoSourceを更新する
+          this.todoService.fetchAllTodo()
+        }),
+        // エラーが発生したら処理をする
+        catchError(this.errorHandler.handleError<Todo>('addTodo'))
+      ).subscribe(
         // 保存が終了したのち
         (resp) => {
           // todoFormDialogComponentに終了したことを伝える
@@ -75,7 +85,15 @@ export class TodoFormComponent implements OnInit {
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにてtodoを更新する
-      this.todoService.updateTodo(todoFromFormVal).subscribe(
+      this.todoService.updateTodo(todoFromFormVal).pipe(
+        // 更新が成功したら
+        tap((updatedTodo: Todo) => {
+          // allTodoSourceを更新する
+          this.todoService.fetchAllTodo()
+        }),
+        // エラーが発生したら処理をする
+        catchError(this.errorHandler.handleError<Todo>('updateTodo'))
+      ).subscribe(
         // 更新が終了したのち
         (resp) => {
           // todoFormDialogComponentに終了したことを伝える
