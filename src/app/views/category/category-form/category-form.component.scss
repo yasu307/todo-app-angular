@@ -1,0 +1,28 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+.category-form {
+
+  &__name {
+    width: 80%;
+  }
+
+  &__slug {
+    width: 80%;
+  }
+
+  &__color-label {
+    display: block;
+  }
+
+  &__color-item {
+    margin-right: 20px;
+    font-size: 1.25em;
+  }
+}
+
+:host ::ng-deep .mat-radio-label-content {
+  padding-left: 4px;
+}
