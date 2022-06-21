@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoListComponent } from './todo-list/todo-list.component';
-import { MatListModule } from '@angular/material/list'
 import { PipeModule } from '../../pipe/pipe.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TodoFormDialogComponent } from './todo-form-dialog/todo-form-dialog.component';
@@ -14,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { MatRadioModule } from '@angular/material/radio'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
   declarations: [
@@ -23,7 +23,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
   ],
   imports: [
     CommonModule,
-    MatListModule,
     PipeModule,
     FontAwesomeModule,
     MatDialogModule,
@@ -34,6 +33,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     ReactiveFormsModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatCardModule,
   ]
 })
 export class TodoModule { }
