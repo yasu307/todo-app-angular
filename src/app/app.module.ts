@@ -6,8 +6,8 @@ import { InMemoryDataService } from './models/in-memory-data/in-memory-data.serv
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TodoModule } from './todo/todo.module';
-import { CategoryModule } from './category/category.module';
+import { TodoModule } from './views/todo/todo.module';
+import { CategoryModule } from './views/category/category.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
