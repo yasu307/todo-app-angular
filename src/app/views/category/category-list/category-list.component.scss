@@ -1,0 +1,49 @@
+.category-list-component {
+  // store-btnをcontentsエリアに含めるように
+  display: flow-root;
+
+  width:     85%;
+  max-width: 700px;
+  margin:    0 auto;
+
+  &__store-btn {
+    // category-listに粘着表示するように
+    position: sticky;
+    bottom:   25px;
+    right:    25px;
+
+    float:     right;
+    margin:    25px;
+    color:     black;
+    font-size: 2.5em;
+  }
+}
+
+.category-item {
+  margin-bottom: 10px;
+
+  &__sub-info {
+    margin: 0 0 8px 4px;
+  }
+
+  &__color {
+    margin-right: 2px;
+  }
+
+  &__footer {
+    margin:          0 !important;
+    // 初期設定されているpaddingを取り除く
+    padding-top:     0;
+    justify-content: end;
+    display:         flex;
+  }
+
+  &__edit-btn {
+    font-size: 1.25em;
+  }
+
+  &__delete-btn {
+    margin-left: 16px;
+    font-size:   1.25em;
+  }
+}
