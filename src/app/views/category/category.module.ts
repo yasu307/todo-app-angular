@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PipeModule } from '../../pipe/pipe.module';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryFormDialogComponent } from './category-form-dialog/category-form-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CategoryFormDialogComponent } from './category-form-dialog/category-for
     MatCardModule,
     FontAwesomeModule,
     PipeModule,
+    MatDialogModule,
   ]
 })
 export class CategoryModule { }

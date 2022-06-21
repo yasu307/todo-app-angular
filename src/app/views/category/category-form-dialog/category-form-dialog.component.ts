@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-category-form-dialog',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryFormDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<CategoryFormDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public selectedCategory?: Category
+  ) { }
 
   ngOnInit(): void {
   }
 
+  // CategoryFormComponentからこのメソッドにtrueが渡されたら、Dialogを終了する
+  finishDialog(isFinished: boolean) {
+    if (isFinished) this.dialogRef.close("category form component finished")
+  }
 }

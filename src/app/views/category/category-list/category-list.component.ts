@@ -4,6 +4,8 @@ import { Category } from 'src/app/models/category';
 import { CategoryService } from '../category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryFormDialogComponent } from '../category-form-dialog/category-form-dialog.component';
 
 @Component({
   selector: 'app-category-list',
@@ -18,7 +20,10 @@ export class CategoryListComponent implements OnInit {
   faPlusCircle = faPlusCircle
   faCircle     = faCircle
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(
+    private categoryService: CategoryService,
+    public  dialog:          MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.categoryService.fetchAllCategory()
@@ -26,8 +31,7 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリ更新ダイアログを表示する
   showEditDialog(category: Category) {
-    console.log("show edit dialog")
-    // const editDialogRef = this.dialog.open(TodoFormDialogComponent, { data: todo, width: '700px' })
+    const editDialogRef = this.dialog.open(CategoryFormDialogComponent, { data: category, width: '700px' })
   }
 
   deleteComponent(categoryId: number) {
@@ -37,7 +41,6 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリ追加ダイアログを表示する
   showStoreDialog() {
-    console.log("show store dialog")
-    // const storeDialogRef = this.dialog.open(TodoFormDialogComponent, { width: '700px' })
+    const storeDialogRef = this.dialog.open(CategoryFormDialogComponent, { width: '700px' })
   }
 }
