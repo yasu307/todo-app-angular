@@ -40,4 +40,10 @@ export class CategoryService {
   updateCategory(category: Category): Observable<Category> {
     return this.http.put<Category>(this.categoriesUrl, category, this.httpOptions)
   }
+
+  // カテゴリを削除するコマンド
+  deleteCategory(categoryId: number): Observable<Category>{
+    const url = `${this.categoriesUrl}/${categoryId}`
+    return this.http.delete<Category>(url, this.httpOptions)
+  }
 }
