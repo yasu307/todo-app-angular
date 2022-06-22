@@ -10,7 +10,7 @@ export class TodoService {
   // allTodoを格納するSubject
   private allTodoSource = new ReplaySubject<Todo[]>(1)
 
-  private todosUrl = "api/todos"
+  private todosUrl = "http://localhost:9000/api/todos"
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

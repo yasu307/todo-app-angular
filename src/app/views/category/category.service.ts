@@ -10,7 +10,7 @@ export class CategoryService {
   // allCategoryを格納するSubject
   private allCategorySource = new ReplaySubject<Category[]>(1)
 
-  private categoriesUrl = "api/categories"
+  private categoriesUrl = "http://localhost:9000/api/categories"
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
