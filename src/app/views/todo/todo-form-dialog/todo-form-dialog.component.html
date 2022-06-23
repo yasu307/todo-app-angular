@@ -1,3 +1,3 @@
 <mat-dialog-content>
-  <app-todo-form [selectedTodo]="selectedTodo" (isFinishedEvent)="finishDialog($event)"></app-todo-form>
+  <app-todo-form [selectedTodo]="data.selectedTodo" [allCategory$]="data.allCategory$" (isFinishedEvent)="finishDialog($event)"></app-todo-form>
 </mat-dialog-content>

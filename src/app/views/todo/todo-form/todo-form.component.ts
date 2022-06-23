@@ -16,19 +16,14 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
 export class TodoFormComponent implements OnInit {
   todoFormGroup!: FormGroup
 
-  // 一度しか取得しないallCategory
-  // 以前にCategoryService.featchAllCategoryを実行していれば、その時に取得した値が
-  // 以前に実行していなければ、このComponentのngOnInitで実行されるfetchAllCategoryの結果が格納される
-  //
-  // Form作成後にこの値が更新されるとカテゴリのラジオボタンについているAutoFocusが消えてしまうため、このような処理にした
-  allCategoryTakeOnce$?:  Observable<Category[]> = this.categoryService.allCategory$.pipe(take(1))
-
   // stateOptionsの選択肢を持つ配列
   stateOptArray = Object.values(StateOptions)
 
   // Todo追加フォームの場合 undefined
   // Todo更新フォームの場合 Todo
   @Input() selectedTodo?: Todo
+
+  @Input() allCategory$!: Observable<Category[]>
 
   pageTitle?: string
 
@@ -56,8 +51,6 @@ export class TodoFormComponent implements OnInit {
     // todo追加フォームだった場合は、FormGroup作成時にstateCodeをTODO.codeに設定している
     // そのため、TODOがすでに選択されていて、操作ができない状態になる
     if (!this.selectedTodo) this.todoFormGroup.controls["stateCode"].disable()
-
-    this.categoryService.fetchAllCategory()
   }
 
   // todoを追加するメソッド

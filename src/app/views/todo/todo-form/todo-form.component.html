@@ -4,7 +4,7 @@
 <form [formGroup]="todoFormGroup" class="todo-form">
   <!-- カテゴリ　ラジオボタン -->
   <p>
-    <mat-radio-group *ngIf="(allCategoryTakeOnce$ | async) as allCategory" formControlName="categoryId">
+    <mat-radio-group *ngIf="(allCategory$ | async) as allCategory" formControlName="categoryId">
       <mat-label class="todo-form__category-label">カテゴリ</mat-label>
       <mat-radio-button class="todo-form__category-item" *ngFor="let category of allCategory" [value]="category.id" [style.--color]="category.color | colorToRgb">{{category.slug}}</mat-radio-button>
     </mat-radio-group>
