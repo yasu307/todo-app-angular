@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../../models/todo';
 import { TodoService } from '../todo.service';
-import { Observable, tap, catchError } from 'rxjs';
+import { Observable, tap, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
@@ -16,8 +16,8 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  todos$?:      Observable<Todo[]>     = this.todoService.allTodo$
-  categories$?: Observable<Category[]>
+  allTodo$?:     Observable<Todo[]>     = this.todoService.allTodo$
+  allCategory$?: Observable<Category[]> = this.categoryService.allCategory$
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -33,7 +33,7 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.todoService.fetchAllTodo()
-    this.categories$ = this.categoryService.getCategories()
+    this.categoryService.fetchAllCategory()
   }
 
   // idから対応するカテゴリを取得するメソッド
@@ -44,7 +44,15 @@ export class TodoListComponent implements OnInit {
 
   // todo更新ダイアログを表示する
   showEditDialog(todo: Todo){
-    const editDialogRef = this.dialog.open(TodoFormDialogComponent, { data: todo, width: '700px'})
+    const editDialogRef = this.dialog.open(TodoFormDialogComponent,
+      {
+        data:
+          {
+          selectedTodo: todo,
+          allCategory$: this.categoryService.allCategory$.pipe(take(1))
+          },
+        width: '700px'
+      })
   }
 
   deleteComponent(todoId: number) {
@@ -61,6 +69,13 @@ export class TodoListComponent implements OnInit {
 
   // todo追加ダイアログを表示する
   showStoreDialog() {
-    const storeDialogRef = this.dialog.open(TodoFormDialogComponent, { width: '700px'})
+    const storeDialogRef = this.dialog.open(TodoFormDialogComponent,
+    {
+      data:
+      {
+        allCategory$: this.categoryService.allCategory$.pipe(take(1))
+      },
+      width: '700px'
+    })
   }
 }

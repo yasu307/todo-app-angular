@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Todo } from 'src/app/models/todo';
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-todo-form-dialog',
@@ -11,7 +13,7 @@ export class TodoFormDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<TodoFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public selectedTodo?: Todo
+    @Inject(MAT_DIALOG_DATA) public data: {selectedTodo?: Todo, allCategory$: Observable<Category[]>}
   ) { }
 
   ngOnInit(): void {

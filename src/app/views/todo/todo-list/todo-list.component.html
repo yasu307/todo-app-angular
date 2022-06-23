@@ -1,7 +1,7 @@
 <!-- 全てのtodoのリスト -->
 <div class="todo-list-component">
   <h2 class="todo-list-component__title">Todo 一覧</h2>
-  <mat-card class="todo-item" *ngFor="let todo of (todos$ | async)">
+  <mat-card class="todo-item" *ngFor="let todo of (allTodo$ | async)">
     <!-- タイトル -->
     <mat-card-title class="todo-item__title">{{todo.title}}</mat-card-title>
     <!-- 補足情報 -->
@@ -9,7 +9,7 @@
       <!-- ステータス -->
       <p class="todo-item__status">{{todo.state.name}}</p>
       <!-- 対応するカテゴリ -->
-      <p class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, categories$|async) as category" >
+      <p class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, allCategory$|async) as category" >
         <!-- カテゴリの色 -->
         <fa-icon class="todo-item__category-color" [icon]="faCircle" [style.color]="category.color | colorToRgb"></fa-icon>
         <!-- カテゴリのスラグ -->
