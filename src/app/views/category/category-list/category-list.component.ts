@@ -35,7 +35,7 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリ更新ダイアログを表示する
   showEditDialog(category: Category) {
-    const editDialogRef = this.dialog.open(CategoryFormDialogComponent, { data: category, width: '700px' })
+    this.dialog.open(CategoryFormDialogComponent, { data: category, width: '700px' })
   }
 
   // カテゴリの削除
@@ -55,6 +55,6 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリ追加ダイアログを表示する
   showStoreDialog() {
-    const storeDialogRef = this.dialog.open(CategoryFormDialogComponent, { width: '700px' })
+    this.dialog.open(CategoryFormDialogComponent, { width: '700px' })
   }
 }

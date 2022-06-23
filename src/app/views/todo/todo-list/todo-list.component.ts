@@ -44,12 +44,12 @@ export class TodoListComponent implements OnInit {
 
   // todo更新ダイアログを表示する
   showEditDialog(todo: Todo){
-    const editDialogRef = this.dialog.open(TodoFormDialogComponent,
+    this.dialog.open(TodoFormDialogComponent,
       {
         data:
           {
-          selectedTodo: todo,
-          allCategory$: this.categoryService.allCategory$.pipe(take(1))
+            selectedTodo: todo,
+            allCategory$: this.categoryService.allCategory$.pipe(take(1))
           },
         width: '700px'
       })
@@ -69,13 +69,13 @@ export class TodoListComponent implements OnInit {
 
   // todo追加ダイアログを表示する
   showStoreDialog() {
-    const storeDialogRef = this.dialog.open(TodoFormDialogComponent,
-    {
-      data:
+    this.dialog.open(TodoFormDialogComponent,
       {
-        allCategory$: this.categoryService.allCategory$.pipe(take(1))
-      },
-      width: '700px'
-    })
-  }
+        data:
+          {
+            allCategory$: this.categoryService.allCategory$.pipe(take(1))
+          },
+        width: '700px'
+      })
+    }
 }
