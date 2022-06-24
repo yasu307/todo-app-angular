@@ -18,9 +18,14 @@
         <fa-icon [icon]="faEdit"></fa-icon>
       </button>
       <!-- 削除ボタン -->
-      <button class="category-item__delete-btn" (click)="deleteCategory(category.id)" mat-icon-button>
-        <fa-icon [icon]="faTrashAlt"></fa-icon>
-      </button>
+      <span class="category-item__delete-btn-wrapper">
+        <!-- もしこのカテゴリが削除中であればスピナーを表示する -->
+        <mat-spinner class="category-item__delete-spinner" *ngIf="this.deletingCategoriesId.includes(category.id)" [diameter]="25"></mat-spinner>
+        <!-- 削除中でなければ削除ボタンを表示する -->
+        <button class="category-item__delete-btn" *ngIf="!this.deletingCategoriesId.includes(category.id)" (click)="deleteCategory(category.id)" mat-icon-button>
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+      </span>
     </mat-card-actions>
   </mat-card>
   <!-- 追加ボタン -->

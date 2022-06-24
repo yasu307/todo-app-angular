@@ -22,6 +22,9 @@ export class CategoryListComponent implements OnInit {
   faPlus       = faPlus
   faCircle     = faCircle
 
+  // 現在削除中のカテゴリのIdを格納する配列
+  deletingCategoriesId: number[] = []
+
   constructor(
     private categoryService: CategoryService,
     private todoService:     TodoService,
@@ -40,6 +43,7 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリの削除
   deleteCategory(categoryId: number) {
+    this.deletingCategoriesId.push(categoryId)
     this.categoryService.deleteCategory(categoryId).pipe(
       // 削除が成功したら
       tap((deletedCategory: Category) => {
@@ -50,7 +54,10 @@ export class CategoryListComponent implements OnInit {
       }),
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Category>('deleteCategory'))
-    ).subscribe()
+    ).subscribe( result => {
+      // 処理が終わったのちdeletingCategoriesIdからtodoIdを削除する
+      this.deletingCategoriesId.splice(this.deletingCategoriesId.indexOf(categoryId), 1)
+    })
   }
 
   // カテゴリ追加ダイアログを表示する

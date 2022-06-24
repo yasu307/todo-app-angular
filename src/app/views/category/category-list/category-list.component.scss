@@ -51,8 +51,18 @@
     font-size: 1.25em;
   }
 
+  // 削除ボタンと削除中を表すスピナーを格納するエレメント
+  // スピナーを削除ボタンと同じ位置に表示させるために存在する
+  &__delete-btn-wrapper {
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    width:           40px !important;
+    height:          40px !important;
+    margin-left:     8px;
+  }
+
   &__delete-btn {
-    margin-left: 8px;
     font-size:   1.25em;
   }
 }

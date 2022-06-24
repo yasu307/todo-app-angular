@@ -27,9 +27,14 @@
         <fa-icon [icon]="faEdit"></fa-icon>
       </button>
       <!-- 削除ボタン -->
-      <button class="todo-item__delete-btn" (click)="deleteComponent(todo.id)" mat-icon-button>
-        <fa-icon [icon]="faTrashAlt"></fa-icon>
-      </button>
+      <span class="todo-item__delete-btn-wrapper">
+        <!-- もしtodoが削除中であればスピナーを表示する -->
+        <mat-spinner class="todo-item__delete-spinner" *ngIf="this.deletingTodosId.includes(todo.id)" [diameter]="25"></mat-spinner>
+        <!-- 削除中でなければ削除ボタンを表示する -->
+        <button class="todo-item__delete-btn" *ngIf="!this.deletingTodosId.includes(todo.id)" (click)="deleteComponent(todo.id)" mat-icon-button>
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+      </span>
     </mat-card-actions>
     </mat-card>
     <!-- 追加ボタン -->
