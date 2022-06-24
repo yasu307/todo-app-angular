@@ -5,7 +5,7 @@ import { Observable, tap, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
-  faPlusCircle = faPlusCircle
+  faPlus       = faPlus
   faCircle     = faCircle
 
   constructor(

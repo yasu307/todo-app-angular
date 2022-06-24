@@ -23,11 +23,17 @@
     <!-- フッター -->
     <mat-card-actions class="todo-item__footer">
       <!-- 更新ボタン -->
-      <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditDialog(todo)"></fa-icon>
+      <button class="todo-item__edit-btn" (click)="showEditDialog(todo)" mat-icon-button>
+        <fa-icon [icon]="faEdit"></fa-icon>
+      </button>
       <!-- 削除ボタン -->
-      <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="deleteComponent(todo.id)"></fa-icon>
+      <button class="todo-item__delete-btn" (click)="deleteComponent(todo.id)" mat-icon-button>
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+      </button>
     </mat-card-actions>
-  </mat-card>
-  <!-- 追加ボタン -->
-  <fa-icon class="todo-list-component__store-btn" [icon]="faPlusCircle" (click)="showStoreDialog()"></fa-icon>
+    </mat-card>
+    <!-- 追加ボタン -->
+    <button class="todo-list-component__store-btn" (click)="showStoreDialog()" mat-fab>
+      <fa-icon class="todo-list-component__store-icon" [icon]="faPlus"></fa-icon>
+    </button>
 </div>

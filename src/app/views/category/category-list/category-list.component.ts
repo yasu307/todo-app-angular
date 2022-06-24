@@ -3,7 +3,7 @@ import { Observable, tap, catchError } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from '../category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryFormDialogComponent } from '../category-form-dialog/category-form-dialog.component';
 import { TodoService } from '../../todo/todo.service';
@@ -19,7 +19,7 @@ export class CategoryListComponent implements OnInit {
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
-  faPlusCircle = faPlusCircle
+  faPlus       = faPlus
   faCircle     = faCircle
 
   constructor(
