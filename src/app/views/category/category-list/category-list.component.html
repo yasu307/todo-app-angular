@@ -1,5 +1,6 @@
 <div class="category-list-component">
   <h2 class="category-list-component__title">カテゴリ 一覧</h2>
+  <mat-spinner *ngIf="!(allCategory$ | async)"></mat-spinner>
   <mat-card class="category-item" *ngFor="let category of (allCategory$ | async)">
     <!-- 名前 -->
     <mat-card-title class="category-item__name">{{category.name}}</mat-card-title>
