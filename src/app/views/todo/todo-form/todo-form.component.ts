@@ -62,7 +62,7 @@ export class TodoFormComponent implements OnInit {
       // DBにtodoを追加する
       this.todoService.addTodo(todoFromFormVal).pipe(
         // 追加が成功したら
-        tap((addedTodo: Todo) => {
+        tap((addedTodoId: any) => {
           // allTodoSourceを更新する
           this.todoService.fetchAllTodo()
         }),

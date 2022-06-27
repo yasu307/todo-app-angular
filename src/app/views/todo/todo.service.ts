@@ -35,8 +35,7 @@ export class TodoService {
   }
 
   // todoを追加するコマンド
-  addTodo(todo: Todo): Observable<Todo>{
-    console.log("inside of addTodo")
+  addTodo(todo: Todo): Observable<any>{
     return this.http.post<Todo>(this.todosUrl, todo, this.httpOptions)
   }
 

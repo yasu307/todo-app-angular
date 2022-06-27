@@ -32,7 +32,7 @@ export class CategoryService {
   }
 
   // カテゴリを追加するコマンド
-  addCategory(category: Category): Observable<Category> {
+  addCategory(category: Category): Observable<any> {
     return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions)
   }
 

@@ -52,7 +52,7 @@ export class CategoryFormComponent implements OnInit {
       // DBにカテゴリを追加する
       this.categoryService.addCategory(categoryFromFormVal).pipe(
         // 追加が成功したら
-        tap((addedCategory: Category) => {
+        tap((addedCategoryId: any) => {
           // allCategorySourceを更新する
           this.categoryService.fetchAllCategory()
         }),
