@@ -19,9 +19,9 @@ export interface State{
 
 // Stateの選択肢
 export const StateOptions = {
-  TODO:      { code: 1, name: "TODO" },
-  WORKING:   { code: 2, name: "進行中" },
-  COMPLETED: { code: 3, name: "完了" },
+  TODO:      { code: 0, name: "TODO" },
+  WORKING:   { code: 1, name: "進行中" },
+  COMPLETED: { code: 2, name: "完了" },
 } as const;
 
 // state.codeからstateを取得するメソッド
