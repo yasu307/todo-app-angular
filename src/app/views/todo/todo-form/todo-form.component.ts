@@ -117,7 +117,7 @@ export class TodoFormComponent implements OnInit {
       id:         this.selectedTodo?.id,
       categoryId: this.todoFormGroup.value.categoryId,
       title:      this.todoFormGroup.value.title,
-      body:       this.todoFormGroup.value.body,
+      body:       this.todoFormGroup.value.body.trim(),
       // stateはデフォルトでTODOを指定する
       state:      StateOptions.TODO,
       updatedAt:  this.selectedTodo?.updatedAt,
