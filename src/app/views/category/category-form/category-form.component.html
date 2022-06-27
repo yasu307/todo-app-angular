@@ -1,0 +1,55 @@
+<!-- ページタイトル -->
+<h2>{{pageTitle}}</h2>
+<!-- フォーム -->
+<form [formGroup]="ctgFormGroup" class="category-form">
+  <!-- カテゴリ名 input text -->
+  <p>
+    <mat-form-field class="category-form__name">
+      <mat-label>カテゴリ名</mat-label>
+      <input type="text" matInput matType="text" formControlName="name">
+    </mat-form-field>
+    <mat-error *ngIf="ctgFormGroup.get('name')?.hasError('required')">
+      カテゴリ名は必須です
+    </mat-error>
+    <mat-error *ngIf="ctgFormGroup.get('name')?.hasError('maxlength')">
+      255文字以内で入力してください
+    </mat-error>
+  </p>
+  <!-- スラグ input text -->
+  <p>
+    <mat-form-field class="category-form__slug">
+      <mat-label>スラグ</mat-label>
+      <input type="text" matInput matType="text" formControlName="slug">
+    </mat-form-field>
+    <mat-error *ngIf="ctgFormGroup.get('slug')?.hasError('required')">
+      スラグは必須です
+    </mat-error>
+    <mat-error *ngIf="ctgFormGroup.get('slug')?.hasError('maxlength')">
+      64文字以内で入力してください
+    </mat-error>
+    <mat-error *ngIf="ctgFormGroup.get('slug')?.hasError('pattern')">
+      英数字で入力してください
+    </mat-error>
+  </p>
+  <!-- 色　ラジオボタン -->
+  <!-- valueではcolor.codeを扱っている -->
+  <p>
+    <mat-radio-group formControlName="colorCode">
+      <mat-label class="category-form__color-label">色</mat-label>
+      <mat-radio-button class="category-form__color-item" *ngFor="let color of colorOptArray" [value]="color.code">
+        <fa-icon class="category-form__color-icon" [icon]="faSquare" [style.color]="color | colorToRgb"></fa-icon>
+      </mat-radio-button>
+    </mat-radio-group>
+    <mat-error *ngIf="ctgFormGroup.get('colorCode')?.hasError('required')">
+      色は必須です
+    </mat-error>
+  </p>
+  <!-- ボタン 追加フォームの場合 -->
+  <button *ngIf="!selectedCategory" [disabled]="ctgFormGroup.invalid" (click)="addCategory()" color="primary" mat-raised-button>
+    追加
+  </button>
+  <!-- ボタン　更新フォームの場合 -->
+  <button *ngIf="selectedCategory" [disabled]="ctgFormGroup.invalid" (click)="updateCategory()" color="primary" mat-raised-button>
+    更新
+  </button>
+</form>

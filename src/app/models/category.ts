@@ -21,7 +21,6 @@ export interface Color {
 }
 
 // Colorの選択肢
-// idxに対応するColorOptionを取得する方法: Object.values(ColorOption).find((color) => color.code == idx)
 export const ColorOptions = {
   RED:     { code: 1, rgb: { red: 255, green: 51, blue: 51}},
   GREEN:   { code: 2, rgb: { red: 51, green: 255, blue: 51 } },
@@ -38,4 +37,9 @@ export class ColorToRgbPipe implements PipeTransform{
   transform(color: Color): string {
     return `RGB(${color.rgb.red}, ${color.rgb.green}, ${color.rgb.blue})`
   }
+}
+
+// color.codeからcolorを取得するメソッド
+export function getColorFromCode(code: number): Color | undefined {
+  return Object.values(ColorOptions).find((color) => color.code == code)
 }
