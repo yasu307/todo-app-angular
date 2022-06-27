@@ -16,7 +16,7 @@ export class InMemoryDataService implements InMemoryDbService {
         title: "デザインをいい感じにする",
         body: "ヘッダーのデザインをもっといい感じに",
         state: {
-          code: 1,
+          code: 0,
           name: "TODO",
         },
         updatedAt: defaultDate,
@@ -28,7 +28,7 @@ export class InMemoryDataService implements InMemoryDbService {
         title: "Controllerの修正",
         body: "Controller名をもっといい感じに",
         state: {
-          code: 2,
+          code: 1,
           name: "進行中",
         },
         updatedAt: defaultDate,
@@ -40,7 +40,7 @@ export class InMemoryDataService implements InMemoryDbService {
         title: "新しいDB環境の作成",
         body: undefined,
         state: {
-          code: 3,
+          code: 2,
           name: "完了",
         },
         updatedAt: defaultDate,
@@ -53,7 +53,7 @@ export class InMemoryDataService implements InMemoryDbService {
         name: "フロントエンド",
         slug: "front",
         color: {
-          code: 1,
+          code: 0,
           rgb: {
             red:   255,
             green: 51,
@@ -68,7 +68,7 @@ export class InMemoryDataService implements InMemoryDbService {
         name: "バックエンド",
         slug: "back",
         color: {
-          code: 2,
+          code: 1,
           rgb: {
             red:   51,
             green: 255,
@@ -83,7 +83,7 @@ export class InMemoryDataService implements InMemoryDbService {
         name: "インフラ",
         slug: "infra",
         color: {
-          code: 3,
+          code: 2,
           rgb: {
             red:   51,
             green: 102,
