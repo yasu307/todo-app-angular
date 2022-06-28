@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Category } from '../../models/category';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class CategoryService {
   // allCategoryを格納するSubject
   private allCategorySource = new ReplaySubject<Category[]>(1)
 
-  private categoriesUrl = "http://localhost:9000/api/categories"
+  private categoriesUrl = `${environment.apiUrl}/api/categories`
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

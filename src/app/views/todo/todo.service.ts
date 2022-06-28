@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { Observable, ReplaySubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TodoService {
   // allTodoを格納するSubject
   private allTodoSource = new ReplaySubject<Todo[]>(1)
 
-  private todosUrl = "http://localhost:9000/api/todos"
+  private todosUrl = `${environment.apiUrl}/api/todos`
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
