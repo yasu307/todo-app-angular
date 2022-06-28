@@ -38,7 +38,8 @@ export class CategoryService {
 
   // カテゴリを更新するコマンド
   updateCategory(category: Category): Observable<Category> {
-    return this.http.put<Category>(this.categoriesUrl, category, this.httpOptions)
+    const url = `${this.categoriesUrl}/${category.id}`
+    return this.http.put<Category>(url, category, this.httpOptions)
   }
 
   // カテゴリを削除するコマンド

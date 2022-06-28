@@ -41,7 +41,8 @@ export class TodoService {
 
   // todoを更新するコマンド
   updateTodo(todo: Todo): Observable<Todo>{
-    return this.http.put<Todo>(this.todosUrl, todo, this.httpOptions)
+    const url = `${this.todosUrl}/${todo.id}`
+    return this.http.put<Todo>(url, todo, this.httpOptions)
   }
 
   // todoを削除するコマンド
