@@ -30,6 +30,9 @@ export class TodoFormComponent implements OnInit {
   // Formの処理が終わったことをTodoFormDialogComponentに伝えるためのEventEmitter
   @Output() isFinishedEvent = new EventEmitter<boolean>();
 
+  // backendにリクエスト中かどうかを表す変数
+  isRequesting: boolean = false
+
   constructor(
     private todoService:     TodoService,
     private categoryService: CategoryService,
@@ -57,6 +60,8 @@ export class TodoFormComponent implements OnInit {
   addTodo() {
     // Validationに問題がなければ処理を実行する
     if (!this.todoFormGroup.invalid) {
+      this.isRequesting = true
+
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにtodoを追加する
@@ -71,6 +76,7 @@ export class TodoFormComponent implements OnInit {
       ).subscribe(
         // 保存が終了したのち
         (resp) => {
+          this.isRequesting = false
           // todoFormDialogComponentに終了したことを伝える
           this.isFinishedEvent.emit(true)
         }
@@ -81,6 +87,8 @@ export class TodoFormComponent implements OnInit {
   // todoを更新するメソッド
   updateTodo() {
     if (!this.todoFormGroup.invalid) {
+      this.isRequesting =true
+
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにてtodoを更新する
@@ -95,6 +103,7 @@ export class TodoFormComponent implements OnInit {
       ).subscribe(
         // 更新が終了したのち
         (resp) => {
+          this.isRequesting = false
           // todoFormDialogComponentに終了したことを伝える
           this.isFinishedEvent.emit(true)
         }

@@ -42,7 +42,8 @@
     </mat-error>
   </p>
   <!-- ボタン 追加フォームの場合 -->
-  <button *ngIf="!selectedTodo" [disabled]="todoFormGroup.invalid" (click)="addTodo()" color="primary" mat-raised-button>追加</button>
+  <button *ngIf="(!selectedTodo) && (!isRequesting)" [disabled]="todoFormGroup.invalid" (click)="addTodo()" color="primary" mat-raised-button>追加</button>
   <!-- ボタン　更新フォームの場合 -->
-  <button *ngIf="selectedTodo" [disabled]="todoFormGroup.invalid" (click)="updateTodo()" color="primary" mat-raised-button>更新</button>
+  <button *ngIf="selectedTodo && (!isRequesting)" [disabled]="todoFormGroup.invalid" (click)="updateTodo()" color="primary" mat-raised-button>更新</button>
+  <mat-spinner *ngIf="isRequesting" [diameter]="30"></mat-spinner>
 </form>
