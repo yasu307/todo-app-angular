@@ -120,8 +120,8 @@ export class TodoFormComponent implements OnInit {
       body:       this.todoFormGroup.value.body,
       // stateはデフォルトでTODOを指定する
       state:      StateOptions.TODO,
-      updatedAt:  this.selectedTodo?.updatedAt ?? new Date(),
-      createdAt:  this.selectedTodo?.createdAt ?? new Date(),
+      updatedAt:  this.selectedTodo?.updatedAt,
+      createdAt:  this.selectedTodo?.createdAt,
     } as Todo
     // もしtodo更新フォームであれば、formで選択されたstateCodeに対応するStateを設定する
     // todo追加フォームではtodoFromGroupのstateCodeをdisableにしており、
