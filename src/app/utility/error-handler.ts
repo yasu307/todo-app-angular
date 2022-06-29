@@ -12,13 +12,14 @@ export class MyErrorHandler{
     private snackBar: SnackBar
   ){ }
 
-  handleError<T>(operation = 'operation', result ?: T) {
+  handleError<T>(operation = 'operation', altResult ?: T) {
     return (error: any): Observable<T> => {
-      // toastを使いエラーが発生したことをユーザに伝える
-      this.snackBar.displaySnackBar(`${operation} failed: ${error.body.error}`, '', { duration: 4000 })
-
-      // 引数で受け取ったresultを返す
-      return of(result as T);
+      // error.errorが存在すればerror.errorを、存在しなければerrorをエラーメッセージとする
+      const errorMessage = "error" in error ? JSON.stringify(error.error) : JSON.stringify(error)
+      // toastを用いてユーザにエラーメッセージを表示する
+      this.snackBar.displaySnackBar(`${operation} failed: ${errorMessage}`, '', { duration: 4000 })
+      // 引数で受け取ったaltResultを返す
+      return of(altResult as T);
     };
   }
 }

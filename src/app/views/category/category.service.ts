@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Category } from '../../models/category';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class CategoryService {
   // allCategoryを格納するSubject
   private allCategorySource = new ReplaySubject<Category[]>(1)
 
-  private categoriesUrl = "api/categories"
+  private categoriesUrl = `${environment.apiUrl}/api/categories`
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -32,13 +33,14 @@ export class CategoryService {
   }
 
   // カテゴリを追加するコマンド
-  addCategory(category: Category): Observable<Category> {
+  addCategory(category: Category): Observable<any> {
     return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions)
   }
 
   // カテゴリを更新するコマンド
   updateCategory(category: Category): Observable<Category> {
-    return this.http.put<Category>(this.categoriesUrl, category, this.httpOptions)
+    const url = `${this.categoriesUrl}/${category.id}`
+    return this.http.put<Category>(url, category, this.httpOptions)
   }
 
   // カテゴリを削除するコマンド

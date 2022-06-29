@@ -22,12 +22,12 @@ export interface Color {
 
 // Colorの選択肢
 export const ColorOptions = {
-  RED:     { code: 1, rgb: { red: 255, green: 51, blue: 51}},
-  GREEN:   { code: 2, rgb: { red: 51, green: 255, blue: 51 } },
-  BLUE:    { code: 3, rgb: { red: 51, green: 102, blue: 255 } },
-  YELLOW:  { code: 4, rgb: { red: 255, green: 255, blue: 102 } },
-  AQUA:    { code: 5, rgb: { red: 102, green: 255, blue: 255 } },
-  FUCHSIA: { code: 6, rgb: { red: 255, green: 102, blue: 255 } },
+  RED:     { code: 0, rgb: { red: 255, green: 51, blue: 51}},
+  GREEN:   { code: 1, rgb: { red: 51, green: 255, blue: 51 } },
+  BLUE:    { code: 2, rgb: { red: 51, green: 102, blue: 255 } },
+  YELLOW:  { code: 3, rgb: { red: 255, green: 255, blue: 102 } },
+  AQUA:    { code: 4, rgb: { red: 102, green: 255, blue: 255 } },
+  FUCHSIA: { code: 5, rgb: { red: 255, green: 102, blue: 255 } },
 } as const;
 
 // ColorからRGBを表す文字列に変換するパイプ
