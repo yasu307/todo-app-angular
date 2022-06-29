@@ -1,3 +1,25 @@
 ::ng-deep body{
+  // topbarはbodyに対して粘着表示されるが、bodyのheightは初期設定では画面の大きさ分しかないため変更
+  height:           auto;
   background-color: #fafafa;
+}
+
+.todo-app {
+  // topbarを常に画面上部に表示するように
+  &__topbar {
+    position: sticky;
+    top:      0;
+    z-index:  1;
+  }
+
+  // top-barの中央にナビゲーションを表示するように
+  &__nav {
+    position:  absolute;
+    left:      50%;
+    transform: translateX(-50%);
+  }
+}
+
+:host ::ng-deep .mat-tab-link {
+  font-size: 17px;
 }
