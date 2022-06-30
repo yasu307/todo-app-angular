@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { NgxsModule } from '@ngxs/store';
+import { environment } from 'src/environments/environment';
+import { TodoState } from 'src/app/models/todo/todo.state';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { MaterialModule } from 'src/app/material/material.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    NgxsModule.forRoot([TodoState], {
+      developmentMode: !environment.production
+    }),
   ]
 })
 export class TodoModule { }

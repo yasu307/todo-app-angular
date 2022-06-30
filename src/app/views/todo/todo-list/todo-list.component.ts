@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../../models/todo/todo';
-import { TodoService } from '../todo.service';
-import { Observable, tap, catchError, take } from 'rxjs';
+import { Observable, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
@@ -9,6 +8,9 @@ import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
+import { Select, Store } from '@ngxs/store';
+import { TodoAction } from 'src/app/models/todo/todo.actions';
+import { TodoState } from 'src/app/models/todo/todo.state';
 
 @Component({
   selector: 'app-todo-list',
@@ -16,7 +18,7 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  allTodo$?:     Observable<Todo[]>     = this.todoService.allTodo$
+  @Select(TodoState.allTodo) allTodo$?: Observable<Todo[]>
   allCategory$?: Observable<Category[]> = this.categoryService.allCategory$
 
   faEdit       = faEdit
@@ -28,14 +30,14 @@ export class TodoListComponent implements OnInit {
   deletingTodosId: number[] = []
 
   constructor(
-    private todoService:     TodoService,
     private categoryService: CategoryService,
     public  dialog:          MatDialog,
     private errorHandler:    MyErrorHandler,
+    private store:           Store,
   ) { }
 
   ngOnInit(): void {
-    this.todoService.fetchAllTodo()
+    this.store.dispatch(new TodoAction.Load)
     this.categoryService.fetchAllCategory()
   }
 
@@ -60,12 +62,8 @@ export class TodoListComponent implements OnInit {
 
   deleteComponent(todoId: number) {
     this.deletingTodosId.push(todoId)
-    this.todoService.deleteTodo(todoId).pipe(
-      // 削除が成功したら
-      tap((deletedTodo: Todo) => {
-        // allTodoSourceを更新する
-        this.todoService.fetchAllTodo()
-      }),
+    // Observable<Todo>
+    this.store.dispatch(new TodoAction.Delete(todoId)).pipe(
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Todo>('deleteTodo'))
     ).subscribe( result => {

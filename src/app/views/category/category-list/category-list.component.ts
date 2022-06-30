@@ -6,7 +6,6 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryFormDialogComponent } from '../category-form-dialog/category-form-dialog.component';
-import { TodoService } from '../../todo/todo.service';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
 
 @Component({
@@ -27,7 +26,6 @@ export class CategoryListComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private todoService:     TodoService,
     public  dialog:          MatDialog,
     private errorHandler:    MyErrorHandler,
   ) { }
@@ -49,8 +47,6 @@ export class CategoryListComponent implements OnInit {
       tap((deletedCategory: Category) => {
         // allCategorySourceを更新する
         this.categoryService.fetchAllCategory()
-        // カテゴリの削除は、同時にtodoデータを変更することが多いので、こちらも更新する
-        this.todoService.fetchAllTodo()
       }),
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Category>('deleteCategory'))
