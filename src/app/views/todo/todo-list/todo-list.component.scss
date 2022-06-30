@@ -6,15 +6,24 @@
   max-width: 700px;
   margin:    0 auto;
 
-  &__store-btn{
-    // todo-listに粘着表示するように
+  &__store-btn {
+    // アイコンをボタンの中心に表示するように
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+
+    // category-listに粘着表示するように
     position: sticky;
     bottom:   25px;
     right:    25px;
 
-    float:     right;
-    margin:    25px;
-    color:     black;
+    float:    right;
+    margin:   25px;
+    color:    black;
+  }
+
+  &__store-icon {
+    color: white;
     font-size: 2.5em;
   }
 }
@@ -47,7 +56,7 @@
   }
 
   &__footer {
-    margin:          0 !important;
+    margin-top:      -4px !important;
     // 初期設定されているpaddingを取り除く
     padding-top:     0;
     justify-content: flex-end;
@@ -58,8 +67,18 @@
     font-size: 1.25em;
   }
 
+  // 削除ボタンと削除中を表すスピナーを格納するエレメント
+  // スピナーを削除ボタンと同じ位置に表示させるために存在する
+  &__delete-btn-wrapper {
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    width:           40px !important;
+    height:          40px !important;
+    margin-left:     8px;
+  }
+
   &__delete-btn {
-    margin-left: 16px;
     font-size:   1.25em;
   }
 }

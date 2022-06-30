@@ -8,6 +8,7 @@ import { TodoModule } from './views/todo/todo.module';
 import { CategoryModule } from './views/category/category.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EnvironmentModule } from 'src/environments/environment';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EnvironmentModule } from 'src/environments/environment';
     CategoryModule,
     BrowserAnimationsModule,
     EnvironmentModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

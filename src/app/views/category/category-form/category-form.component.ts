@@ -98,8 +98,8 @@ export class CategoryFormComponent implements OnInit {
       name:      this.ctgFormGroup.value.name,
       slug:      this.ctgFormGroup.value.slug,
       color:     getColorFromCode(this.ctgFormGroup.value.colorCode),
-      updatedAt: this.selectedCategory?.updatedAt ?? new Date(),
-      createdAt: this.selectedCategory?.createdAt ?? new Date(),
+      updatedAt: this.selectedCategory?.updatedAt,
+      createdAt: this.selectedCategory?.createdAt,
     } as Category
     return categoryFromForm
   }

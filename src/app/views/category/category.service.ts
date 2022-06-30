@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { dateMapper } from 'src/app/models/date-mapper';
 import { Category } from '../../models/category';
 import { environment } from 'src/environments/environment';
+import { Timestamps } from 'src/app/models/timestamps';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +27,9 @@ export class CategoryService {
   // allCategoryを更新するコマンド
   // バックエンドAPIから受け取った結果をallCategorySourceに追加する
   fetchAllCategory(): void {
-    this.http.get<Category[]>(this.categoriesUrl).subscribe(
-      (fetchResult: Category[]) => {
-        this.allCategorySource.next(fetchResult)
+    this.http.get<Category[]>(this.categoriesUrl).pipe(dateMapper).subscribe(
+      (fetchResult: Timestamps[]) => {
+        this.allCategorySource.next(fetchResult as Category[])
       }
     )
   }

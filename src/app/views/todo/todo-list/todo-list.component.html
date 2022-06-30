@@ -1,6 +1,7 @@
 <!-- 全てのtodoのリスト -->
 <div class="todo-list-component">
   <h2 class="todo-list-component__title">Todo 一覧</h2>
+  <mat-spinner *ngIf="!(allTodo$ | async)"></mat-spinner>
   <mat-card class="todo-item" *ngFor="let todo of (allTodo$ | async)">
     <!-- タイトル -->
     <mat-card-title class="todo-item__title">{{todo.title}}</mat-card-title>
@@ -9,6 +10,7 @@
       <!-- ステータス -->
       <p class="todo-item__status">{{todo.state.name}}</p>
       <!-- 対応するカテゴリ -->
+      <mat-spinner *ngIf="!(allCategory$ | async)" [diameter]="15"></mat-spinner>
       <p class="todo-item__category" *ngIf="getCategoryById(todo.categoryId, allCategory$|async) as category" >
         <!-- カテゴリの色 -->
         <fa-icon class="todo-item__category-color" [icon]="faCircle" [style.color]="category.color | colorToRgb"></fa-icon>
@@ -21,11 +23,22 @@
     <!-- フッター -->
     <mat-card-actions class="todo-item__footer">
       <!-- 更新ボタン -->
-      <fa-icon class="todo-item__edit-btn" [icon]="faEdit" (click)="showEditDialog(todo)"></fa-icon>
+      <button class="todo-item__edit-btn" (click)="showEditDialog(todo)" mat-icon-button>
+        <fa-icon [icon]="faEdit"></fa-icon>
+      </button>
       <!-- 削除ボタン -->
-      <fa-icon class="todo-item__delete-btn" [icon]="faTrashAlt" (click)="deleteComponent(todo.id)"></fa-icon>
+      <span class="todo-item__delete-btn-wrapper">
+        <!-- もしtodoが削除中であればスピナーを表示する -->
+        <mat-spinner class="todo-item__delete-spinner" *ngIf="this.deletingTodosId.includes(todo.id)" [diameter]="25"></mat-spinner>
+        <!-- 削除中でなければ削除ボタンを表示する -->
+        <button class="todo-item__delete-btn" *ngIf="!this.deletingTodosId.includes(todo.id)" (click)="deleteComponent(todo.id)" mat-icon-button>
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+      </span>
     </mat-card-actions>
-  </mat-card>
-  <!-- 追加ボタン -->
-  <fa-icon class="todo-list-component__store-btn" [icon]="faPlusCircle" (click)="showStoreDialog()"></fa-icon>
+    </mat-card>
+    <!-- 追加ボタン -->
+    <button class="todo-list-component__store-btn" (click)="showStoreDialog()" mat-fab>
+      <fa-icon class="todo-list-component__store-icon" [icon]="faPlus"></fa-icon>
+    </button>
 </div>

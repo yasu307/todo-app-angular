@@ -5,7 +5,7 @@ import { Observable, tap, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
@@ -21,8 +21,11 @@ export class TodoListComponent implements OnInit {
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
-  faPlusCircle = faPlusCircle
+  faPlus       = faPlus
   faCircle     = faCircle
+
+  // 現在削除中のTodoのIdを格納する配列
+  deletingTodosId: number[] = []
 
   constructor(
     private todoService:     TodoService,
@@ -56,6 +59,7 @@ export class TodoListComponent implements OnInit {
   }
 
   deleteComponent(todoId: number) {
+    this.deletingTodosId.push(todoId)
     this.todoService.deleteTodo(todoId).pipe(
       // 削除が成功したら
       tap((deletedTodo: Todo) => {
@@ -64,7 +68,10 @@ export class TodoListComponent implements OnInit {
       }),
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Todo>('deleteTodo'))
-    ).subscribe()
+    ).subscribe( result => {
+      // 処理が終わったのちdeletingTodosIdからtodoIdを削除する
+      this.deletingTodosId.splice(this.deletingTodosId.indexOf(todoId), 1)
+    })
   }
 
   // todo追加ダイアログを表示する

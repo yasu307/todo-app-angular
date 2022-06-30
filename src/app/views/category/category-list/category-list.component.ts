@@ -3,7 +3,7 @@ import { Observable, tap, catchError } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from '../category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { faPlusCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryFormDialogComponent } from '../category-form-dialog/category-form-dialog.component';
 import { TodoService } from '../../todo/todo.service';
@@ -19,8 +19,11 @@ export class CategoryListComponent implements OnInit {
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
-  faPlusCircle = faPlusCircle
+  faPlus       = faPlus
   faCircle     = faCircle
+
+  // 現在削除中のカテゴリのIdを格納する配列
+  deletingCategoriesId: number[] = []
 
   constructor(
     private categoryService: CategoryService,
@@ -40,6 +43,7 @@ export class CategoryListComponent implements OnInit {
 
   // カテゴリの削除
   deleteCategory(categoryId: number) {
+    this.deletingCategoriesId.push(categoryId)
     this.categoryService.deleteCategory(categoryId).pipe(
       // 削除が成功したら
       tap((deletedCategory: Category) => {
@@ -50,7 +54,10 @@ export class CategoryListComponent implements OnInit {
       }),
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Category>('deleteCategory'))
-    ).subscribe()
+    ).subscribe( result => {
+      // 処理が終わったのちdeletingCategoriesIdからtodoIdを削除する
+      this.deletingCategoriesId.splice(this.deletingCategoriesId.indexOf(categoryId), 1)
+    })
   }
 
   // カテゴリ追加ダイアログを表示する

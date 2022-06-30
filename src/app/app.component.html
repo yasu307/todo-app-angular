@@ -1,6 +1,8 @@
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/todo/list">todo</a>
-  <a routerLink="/category/list">カテゴリ</a>
-</nav>
+<mat-toolbar class="todo-app__topbar" color="primary">
+  <span class="todo-app__title">{{title}}</span>
+  <nav class="todo-app__nav" mat-tab-nav-bar backgroundColor="primary" [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let link of linkArray" [routerLink]="link.link" [active]="activeLink == link.link">{{link.title}}</a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+</mat-toolbar>
 <router-outlet></router-outlet>
