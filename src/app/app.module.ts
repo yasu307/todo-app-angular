@@ -9,8 +9,7 @@ import { CategoryModule } from './views/category/category.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EnvironmentModule } from 'src/environments/environment';
 import { MaterialModule } from './material/material.module';
-import { NgxsModule } from '@ngxs/store';
-import { environment } from 'src/environments/environment';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 @NgModule({
   declarations: [
@@ -25,9 +24,7 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     EnvironmentModule,
     MaterialModule,
-    NgxsModule.forRoot([], {
-      developmentMode: !environment.production
-    })
+    NgxsLoggerPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
