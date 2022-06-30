@@ -14,8 +14,8 @@ export class MyErrorHandler{
 
   handleError<T>(operation = 'operation', altResult ?: T) {
     return (error: any): Observable<T> => {
-      // error.errorが存在すればerror.errorを、存在しなければerrorをエラーメッセージとする
-      const errorMessage = "error" in error ? JSON.stringify(error.error) : JSON.stringify(error)
+      // error.messageが存在すればerror.messageを、存在しなければerrorをエラーメッセージとする
+      const errorMessage = "message" in error ? JSON.stringify(error.message) : JSON.stringify(error)
       // toastを用いてユーザにエラーメッセージを表示する
       this.snackBar.displaySnackBar(`${operation} failed: ${errorMessage}`, '', { duration: 4000 })
       // 引数で受け取ったaltResultを返す
