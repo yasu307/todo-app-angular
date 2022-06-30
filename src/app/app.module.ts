@@ -10,6 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EnvironmentModule } from 'src/environments/environment';
 import { MaterialModule } from './material/material.module';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { environment } from 'src/environments/environment';
+import { TodoState } from 'src/app/models/todo/todo.state';
+import { CategoryState } from 'src/app/models/category/category.state';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,9 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     EnvironmentModule,
     MaterialModule,
     NgxsLoggerPluginModule.forRoot(),
+    NgxsModule.forRoot([TodoState, CategoryState], {
+      developmentMode: !environment.production
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Category, ColorOptions, getColorFromCode } from 'src/app/models/category/category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CategoryService } from '../category.service';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
-import { tap, catchError } from 'rxjs';
+import { catchError } from 'rxjs';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
+import { Store } from '@ngxs/store';
+import { CategoryAction } from 'src/app/models/category/category.action';
 
 @Component({
   selector: 'app-category-form',
@@ -29,8 +30,8 @@ export class CategoryFormComponent implements OnInit {
   @Output() isFinishedEvent = new EventEmitter<boolean>();
 
   constructor(
-    private categoryService: CategoryService,
     private errorHandler:    MyErrorHandler,
+    private store:           Store,
   ) { }
 
   ngOnInit(): void {
@@ -50,12 +51,8 @@ export class CategoryFormComponent implements OnInit {
       // formで指定された値をもつカテゴリを作成する
       const categoryFromFormVal: Category = this.createCategoryFromFormVal()
       // DBにカテゴリを追加する
-      this.categoryService.addCategory(categoryFromFormVal).pipe(
-        // 追加が成功したら
-        tap((addedCategoryId: any) => {
-          // allCategorySourceを更新する
-          this.categoryService.fetchAllCategory()
-        }),
+      // Observable<any>
+      this.store.dispatch(new CategoryAction.Add(categoryFromFormVal)).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Category>('addCategory'))
       ).subscribe(
@@ -73,12 +70,8 @@ export class CategoryFormComponent implements OnInit {
       // formで指定された値をもつカテゴリを作成する
       const categoryFromFormVal: Category = this.createCategoryFromFormVal()
       // DBにてカテゴリを更新する
-      this.categoryService.updateCategory(categoryFromFormVal).pipe(
-        // 更新が成功したら
-        tap((updatedCategory: Category) => {
-          // allCategorySourceを更新する
-          this.categoryService.fetchAllCategory()
-        }),
+      // Observable<Category>
+      this.store.dispatch(new CategoryAction.Update(categoryFromFormVal)).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Category>('updateCategory'))
       ).subscribe(

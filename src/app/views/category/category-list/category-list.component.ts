@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, tap, catchError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
-import { CategoryService } from '../category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryFormDialogComponent } from '../category-form-dialog/category-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
+import { CategoryState } from 'src/app/models/category/category.state';
+import { Select, Store } from '@ngxs/store';
+import { CategoryAction } from 'src/app/models/category/category.action';
 
 @Component({
   selector: 'app-category-list',
@@ -14,7 +16,7 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
-  allCategory$: Observable<Category[]> = this.categoryService.allCategory$
+  @Select(CategoryState.allCategory) allCategory$?: Observable<Category[]>
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -25,13 +27,13 @@ export class CategoryListComponent implements OnInit {
   deletingCategoriesId: number[] = []
 
   constructor(
-    private categoryService: CategoryService,
     public  dialog:          MatDialog,
     private errorHandler:    MyErrorHandler,
+    private store:           Store,
   ) { }
 
   ngOnInit(): void {
-    this.categoryService.fetchAllCategory()
+    this.store.dispatch(new CategoryAction.Load)
   }
 
   // カテゴリ更新ダイアログを表示する
@@ -42,12 +44,8 @@ export class CategoryListComponent implements OnInit {
   // カテゴリの削除
   deleteCategory(categoryId: number) {
     this.deletingCategoriesId.push(categoryId)
-    this.categoryService.deleteCategory(categoryId).pipe(
-      // 削除が成功したら
-      tap((deletedCategory: Category) => {
-        // allCategorySourceを更新する
-        this.categoryService.fetchAllCategory()
-      }),
+    // Observable<Category>
+    this.store.dispatch(new CategoryAction.Delete(categoryId)).pipe(
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Category>('deleteCategory'))
     ).subscribe( result => {

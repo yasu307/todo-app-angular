@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../../models/todo/todo';
 import { Observable, catchError, take } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
-import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +10,8 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
 import { Select, Store } from '@ngxs/store';
 import { TodoAction } from 'src/app/models/todo/todo.actions';
 import { TodoState } from 'src/app/models/todo/todo.state';
+import { CategoryState } from 'src/app/models/category/category.state';
+import { CategoryAction } from 'src/app/models/category/category.action';
 
 @Component({
   selector: 'app-todo-list',
@@ -18,8 +19,8 @@ import { TodoState } from 'src/app/models/todo/todo.state';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  @Select(TodoState.allTodo) allTodo$?: Observable<Todo[]>
-  allCategory$?: Observable<Category[]> = this.categoryService.allCategory$
+  @Select(TodoState.allTodo)         allTodo$?:     Observable<Todo[]>
+  @Select(CategoryState.allCategory) allCategory$?: Observable<Category[]>
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -30,7 +31,6 @@ export class TodoListComponent implements OnInit {
   deletingTodosId: number[] = []
 
   constructor(
-    private categoryService: CategoryService,
     public  dialog:          MatDialog,
     private errorHandler:    MyErrorHandler,
     private store:           Store,
@@ -38,7 +38,7 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new TodoAction.Load)
-    this.categoryService.fetchAllCategory()
+    this.store.dispatch(new CategoryAction.Load)
   }
 
   // idから対応するカテゴリを取得するメソッド
@@ -54,7 +54,7 @@ export class TodoListComponent implements OnInit {
         data:
           {
             selectedTodo: todo,
-            allCategory$: this.categoryService.allCategory$.pipe(take(1))
+            allCategory$: this.store.selectOnce(state => state.categories.allCategory)
           },
         width: '700px'
       })
@@ -78,7 +78,7 @@ export class TodoListComponent implements OnInit {
       {
         data:
           {
-            allCategory$: this.categoryService.allCategory$.pipe(take(1))
+            allCategory$: this.store.selectOnce(state => state.categories.allCategory)
           },
         width: '700px'
       })

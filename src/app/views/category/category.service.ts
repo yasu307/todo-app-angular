@@ -10,9 +10,6 @@ import { Timestamps } from 'src/app/models/timestamps';
   providedIn: 'root'
 })
 export class CategoryService {
-  // allCategoryを格納するSubject
-  private allCategorySource = new ReplaySubject<Category[]>(1)
-
   private categoriesUrl = `${environment.apiUrl}/api/categories`
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,32 +17,23 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  get allCategory$(): Observable<Category[]> {
-    return this.allCategorySource.asObservable()
+  // 全てのカテゴリを取得するメソッド
+  getAllCategory(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.categoriesUrl)
   }
 
-  // allCategoryを更新するコマンド
-  // バックエンドAPIから受け取った結果をallCategorySourceに追加する
-  fetchAllCategory(): void {
-    this.http.get<Category[]>(this.categoriesUrl).pipe(dateMapper).subscribe(
-      (fetchResult: Timestamps[]) => {
-        this.allCategorySource.next(fetchResult as Category[])
-      }
-    )
-  }
-
-  // カテゴリを追加するコマンド
+  // カテゴリを追加するメソッド
   addCategory(category: Category): Observable<any> {
     return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions)
   }
 
-  // カテゴリを更新するコマンド
+  // カテゴリを更新するメソッド
   updateCategory(category: Category): Observable<Category> {
     const url = `${this.categoriesUrl}/${category.id}`
     return this.http.put<Category>(url, category, this.httpOptions)
   }
 
-  // カテゴリを削除するコマンド
+  // カテゴリを削除するメソッド
   deleteCategory(categoryId: number): Observable<Category>{
     const url = `${this.categoriesUrl}/${categoryId}`
     return this.http.delete<Category>(url, this.httpOptions)
