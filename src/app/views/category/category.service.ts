@@ -4,7 +4,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { dateMapper } from 'src/app/models/date-mapper';
 import { Category } from '../../models/category';
 import { environment } from 'src/environments/environment';
-import { Todo } from 'src/app/models/todo';
+import { Timestamps } from 'src/app/models/timestamps';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class CategoryService {
   // バックエンドAPIから受け取った結果をallCategorySourceに追加する
   fetchAllCategory(): void {
     this.http.get<Category[]>(this.categoriesUrl).pipe(dateMapper).subscribe(
-      (fetchResult: (Todo | Category)[]) => {
+      (fetchResult: Timestamps[]) => {
         this.allCategorySource.next(fetchResult as Category[])
       }
     )

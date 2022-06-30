@@ -4,7 +4,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { dateMapper } from 'src/app/models/date-mapper';
-import { Category } from 'src/app/models/category';
+import { Timestamps } from 'src/app/models/timestamps';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class TodoService {
   // バックエンドAPIから受け取った結果をallTodoSourceに追加する
   fetchAllTodo(): void{
     this.http.get<Todo[]>(this.todosUrl).pipe(dateMapper).subscribe(
-      (fetchResult: (Todo | Category)[]) => {
+      (fetchResult: Timestamps[]) => {
         this.allTodoSource.next(fetchResult as Todo[])
       }
     )

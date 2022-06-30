@@ -1,10 +1,9 @@
 import { map } from "rxjs/operators"
-import { Todo } from "./todo"
-import { Category } from "./category"
+import { Timestamps } from "./timestamps"
 
-// JSONをDateに変換するオペレーター
+// DBで設定されるタイムスタンプをDateに変換するオペレーター
 export const dateMapper = map(
-  (data: (Todo | Category)[]) => {
+  (data: Timestamps[]) => {
     return data.map(d => {
       d.updatedAt = new Date(d.updatedAt)
       d.createdAt = new Date(d.createdAt)
