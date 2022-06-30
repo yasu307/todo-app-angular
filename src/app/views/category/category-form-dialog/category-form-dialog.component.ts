@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Category } from 'src/app/models/category';
+import { Category } from 'src/app/models/category/category';
 
 @Component({
   selector: 'app-category-form-dialog',

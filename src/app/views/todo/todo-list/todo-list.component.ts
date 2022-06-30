@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../../../models/todo';
+import { Todo } from '../../../models/todo/todo';
 import { TodoService } from '../todo.service';
 import { Observable, tap, catchError, take } from 'rxjs';
-import { Category } from 'src/app/models/category';
+import { Category } from 'src/app/models/category/category';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';

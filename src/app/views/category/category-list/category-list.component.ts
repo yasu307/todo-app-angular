@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, tap, catchError } from 'rxjs';
-import { Category } from 'src/app/models/category';
+import { Category } from 'src/app/models/category/category';
 import { CategoryService } from '../category.service';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';

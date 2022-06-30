@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Category, ColorOptions, getColorFromCode } from 'src/app/models/category';
+import { Category, ColorOptions, getColorFromCode } from 'src/app/models/category/category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CategoryService } from '../category.service';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';

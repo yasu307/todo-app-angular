@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CategoryService } from 'src/app/views/category/category.service';
 import { Observable, tap, catchError, take } from 'rxjs';
-import { Category } from 'src/app/models/category';
-import { getStateFromCode, Todo } from 'src/app/models/todo';
+import { Category } from 'src/app/models/category/category';
+import { getStateFromCode, Todo } from 'src/app/models/todo/todo';
 import { TodoService } from '../todo.service';
-import { StateOptions } from 'src/app/models/todo';
+import { StateOptions } from 'src/app/models/todo/todo';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
 

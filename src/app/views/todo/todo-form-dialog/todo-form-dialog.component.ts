@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Todo } from 'src/app/models/todo';
+import { Todo } from 'src/app/models/todo/todo';
 import { Observable } from 'rxjs';
-import { Category } from 'src/app/models/category';
+import { Category } from 'src/app/models/category/category';
 
 @Component({
   selector: 'app-todo-form-dialog',
