@@ -1,7 +1,7 @@
 import { Category } from "./category"
 import { Action, Selector, State, StateContext } from "@ngxs/store"
 import { CategoryAction } from "./category.action"
-import { CategoryService } from "src/app/views/category/category.service"
+import { CategoryService } from "src/app/models/category/category.service"
 import { finalize, tap } from "rxjs"
 import { Injectable } from "@angular/core"
 

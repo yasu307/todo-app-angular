@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { dateMapper } from 'src/app/models/date-mapper';
-import { Category } from '../../models/category/category';
+import { Category } from './category';
 import { environment } from 'src/environments/environment';
 import { Timestamps } from 'src/app/models/timestamps';
 

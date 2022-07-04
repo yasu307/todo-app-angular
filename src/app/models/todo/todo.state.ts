@@ -1,7 +1,7 @@
 import { Todo } from "./todo"
 import { Action, Selector, State, StateContext } from "@ngxs/store"
 import { TodoAction } from "./todo.actions"
-import { TodoService } from "src/app/views/todo/todo.service"
+import { TodoService } from "src/app/models/todo/todo.service"
 import { finalize, tap } from "rxjs"
 import { Injectable } from "@angular/core"
 
