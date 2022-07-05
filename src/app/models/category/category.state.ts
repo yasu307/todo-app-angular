@@ -1,9 +1,9 @@
 import { Category } from "./category"
-import { Action, Selector, State, StateContext } from "@ngxs/store"
-import { CategoryAction } from "./category.action"
+import { Selector, State, StateContext } from "@ngxs/store"
 import { CategoryService } from "src/app/models/category/category.service"
 import { finalize, tap } from "rxjs"
 import { Injectable } from "@angular/core"
+import { Receiver, Emitter, Emittable, EmitterAction } from "@ngxs-labs/emitter"
 
 export class CategoryStateModel {
   // 編集/削除中のCategoryデータを持つことも可能
@@ -20,13 +20,16 @@ export class CategoryStateModel {
 })
 @Injectable()
 export class CategoryState {
+  private static categoryService: CategoryService
 
   constructor(
     private categoryService: CategoryService
-  ) { }
+  ) {
+    CategoryState.categoryService = categoryService
+  }
 
-  @Action(CategoryAction.Load)
-  load(ctx: StateContext<CategoryStateModel>) {
+  @Receiver()
+  static load(ctx: StateContext<CategoryStateModel>) {
     return this.categoryService.getAllCategory().pipe(
       tap((result: Category[]) =>
         ctx.patchState({
@@ -36,25 +39,26 @@ export class CategoryState {
     )
   }
 
-  @Action(CategoryAction.Add)
-  addCategory(ctx: StateContext<CategoryStateModel>, action: CategoryAction.Add) {
-    return this.categoryService.addCategory(action.category).pipe(
-      finalize(() => { console.log("finalize"); ctx.dispatch(new CategoryAction.Load()) })
-    )
+  // TodoState内でTodoState.loadを実行する必要があるためEimitterを作成する
+  @Emitter(CategoryState.load)
+  private static loadCategoryEmittable: Emittable<void>
+
+  @Receiver()
+  static addCategory(ctx: StateContext<CategoryStateModel>, { payload }: EmitterAction<Category>) {
+    return this.categoryService.addCategory(payload).pipe(
+      finalize(() => this.loadCategoryEmittable.emit()))
   }
 
-  @Action(CategoryAction.Update)
-  updateCategory(ctx: StateContext<CategoryStateModel>, action: CategoryAction.Update) {
-    return this.categoryService.updateCategory(action.category).pipe(
-      finalize(() => ctx.dispatch(new CategoryAction.Load()))
-    )
+  @Receiver()
+  static updateCategory(ctx: StateContext<CategoryStateModel>, { payload }: EmitterAction<Category>) {
+    return this.categoryService.updateCategory(payload).pipe(
+      finalize(() => this.loadCategoryEmittable.emit()))
   }
 
-  @Action(CategoryAction.Delete)
-  deleteCategory(ctx: StateContext<CategoryStateModel>, action: CategoryAction.Delete) {
-    return this.categoryService.deleteCategory(action.id).pipe(
-      finalize(() => ctx.dispatch(new CategoryAction.Load()))
-    )
+  @Receiver()
+  static deleteTodo(ctx: StateContext<CategoryStateModel>, { payload }: EmitterAction<number>) {
+    return this.categoryService.deleteCategory(payload).pipe(
+      finalize(() => this.loadCategoryEmittable.emit()))
   }
 
   @Selector()

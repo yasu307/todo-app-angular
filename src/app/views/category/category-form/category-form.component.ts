@@ -5,7 +5,8 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { catchError } from 'rxjs';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
 import { Store } from '@ngxs/store';
-import { CategoryAction } from 'src/app/models/category/category.action';
+import { Emitter, Emittable } from '@ngxs-labs/emitter';
+import { CategoryState } from 'src/app/models/category/category.state';
 
 @Component({
   selector: 'app-category-form',
@@ -28,6 +29,12 @@ export class CategoryFormComponent implements OnInit {
 
   // Formの処理が終わったことをCategoryFormDialogComponentに伝えるためのEventEmitter
   @Output() isFinishedEvent = new EventEmitter<boolean>();
+
+  @Emitter(CategoryState.addCategory)
+  private addCategoryEmittable!: Emittable<Category>
+
+  @Emitter(CategoryState.updateCategory)
+  private updateCategoryEmittable!: Emittable<Category>
 
   constructor(
     private errorHandler:    MyErrorHandler,
@@ -52,7 +59,7 @@ export class CategoryFormComponent implements OnInit {
       const categoryFromFormVal: Category = this.createCategoryFromFormVal()
       // DBにカテゴリを追加する
       // Observable<any>
-      this.store.dispatch(new CategoryAction.Add(categoryFromFormVal)).pipe(
+      this.addCategoryEmittable.emit(categoryFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Category>('addCategory'))
       ).subscribe(
@@ -71,7 +78,7 @@ export class CategoryFormComponent implements OnInit {
       const categoryFromFormVal: Category = this.createCategoryFromFormVal()
       // DBにてカテゴリを更新する
       // Observable<Category>
-      this.store.dispatch(new CategoryAction.Update(categoryFromFormVal)).pipe(
+      this.updateCategoryEmittable.emit(categoryFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Category>('updateCategory'))
       ).subscribe(

@@ -10,7 +10,6 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
 import { Select, Store } from '@ngxs/store';
 import { TodoState } from 'src/app/models/todo/todo.state';
 import { CategoryState } from 'src/app/models/category/category.state';
-import { CategoryAction } from 'src/app/models/category/category.action';
 import { Emittable, Emitter } from '@ngxs-labs/emitter';
 
 @Component({
@@ -28,6 +27,9 @@ export class TodoListComponent implements OnInit {
   @Emitter(TodoState.deleteTodo)
   private deleteTodoEmittable!: Emittable<number>
 
+  @Emitter(CategoryState.load)
+  private loadCategoryEmittable!: Emittable<void>
+
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
   faPlus       = faPlus
@@ -44,7 +46,7 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTodoEmittable.emit()
-    this.store.dispatch(new CategoryAction.Load)
+    this.loadCategoryEmittable.emit()
   }
 
   // idから対応するカテゴリを取得するメソッド

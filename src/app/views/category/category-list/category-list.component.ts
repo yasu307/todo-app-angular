@@ -8,7 +8,7 @@ import { CategoryFormDialogComponent } from '../category-form-dialog/category-fo
 import { MyErrorHandler } from 'src/app/utility/error-handler';
 import { CategoryState } from 'src/app/models/category/category.state';
 import { Select, Store } from '@ngxs/store';
-import { CategoryAction } from 'src/app/models/category/category.action';
+import { Emitter, Emittable } from '@ngxs-labs/emitter';
 
 @Component({
   selector: 'app-category-list',
@@ -17,6 +17,12 @@ import { CategoryAction } from 'src/app/models/category/category.action';
 })
 export class CategoryListComponent implements OnInit {
   @Select(CategoryState.allCategory) allCategory$?: Observable<Category[]>
+
+  @Emitter(CategoryState.load)
+  private loadCategoryEmittable!: Emittable<void>
+
+  @Emitter(CategoryState.deleteTodo)
+  private deleteCategoryEmittable!: Emittable<number>
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -33,7 +39,7 @@ export class CategoryListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new CategoryAction.Load)
+    this.loadCategoryEmittable.emit()
   }
 
   // カテゴリ更新ダイアログを表示する
@@ -45,7 +51,7 @@ export class CategoryListComponent implements OnInit {
   deleteCategory(categoryId: number) {
     this.deletingCategoriesId.push(categoryId)
     // Observable<Category>
-    this.store.dispatch(new CategoryAction.Delete(categoryId)).pipe(
+    this.deleteCategoryEmittable.emit(categoryId).pipe(
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Category>('deleteCategory'))
     ).subscribe( result => {
