@@ -14,6 +14,7 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { TodoState } from 'src/app/models/todo/todo.state';
 import { CategoryState } from 'src/app/models/category/category.state';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CategoryState } from 'src/app/models/category/category.state';
     NgxsModule.forRoot([TodoState, CategoryState], {
       developmentMode: !environment.production
     }),
+    NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
