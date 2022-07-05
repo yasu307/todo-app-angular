@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { TodoState } from 'src/app/models/todo/todo.state';
 import { CategoryState } from 'src/app/models/category/category.state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsEmitPluginModule } from '@ngxs-labs/emitter';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     NgxsModule.forRoot([TodoState, CategoryState], {
       developmentMode: !environment.production
     }),
+    NgxsEmitPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [],
