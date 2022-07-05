@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../../../models/todo';
-import { TodoService } from '../todo.service';
-import { Observable, tap, catchError, take } from 'rxjs';
-import { Category } from 'src/app/models/category';
-import { CategoryService } from 'src/app/views/category/category.service';
+import { Todo } from '../../../models/todo/todo';
+import { Observable, catchError, take } from 'rxjs';
+import { Category } from 'src/app/models/category/category';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
+import { Select, Store } from '@ngxs/store';
+import { TodoState } from 'src/app/models/todo/todo.state';
+import { CategoryState } from 'src/app/models/category/category.state';
+import { Emittable, Emitter } from '@ngxs-labs/emitter';
 
 @Component({
   selector: 'app-todo-list',
@@ -16,8 +18,17 @@ import { MyErrorHandler } from 'src/app/utility/error-handler';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  allTodo$?:     Observable<Todo[]>     = this.todoService.allTodo$
-  allCategory$?: Observable<Category[]> = this.categoryService.allCategory$
+  @Select(TodoState.allTodo)         allTodo$?:     Observable<Todo[]>
+  @Select(CategoryState.allCategory) allCategory$?: Observable<Category[]>
+
+  @Emitter(TodoState.load)
+  private loadTodoEmittable!: Emittable<void>
+
+  @Emitter(TodoState.deleteTodo)
+  private deleteTodoEmittable!: Emittable<number>
+
+  @Emitter(CategoryState.load)
+  private loadCategoryEmittable!: Emittable<void>
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -28,15 +39,14 @@ export class TodoListComponent implements OnInit {
   deletingTodosId: number[] = []
 
   constructor(
-    private todoService:     TodoService,
-    private categoryService: CategoryService,
     public  dialog:          MatDialog,
     private errorHandler:    MyErrorHandler,
+    private store:           Store,
   ) { }
 
   ngOnInit(): void {
-    this.todoService.fetchAllTodo()
-    this.categoryService.fetchAllCategory()
+    this.loadTodoEmittable.emit()
+    this.loadCategoryEmittable.emit()
   }
 
   // idから対応するカテゴリを取得するメソッド
@@ -52,7 +62,7 @@ export class TodoListComponent implements OnInit {
         data:
           {
             selectedTodo: todo,
-            allCategory$: this.categoryService.allCategory$.pipe(take(1))
+            allCategory$: this.store.selectOnce(state => state.categories.allCategory)
           },
         width: '700px'
       })
@@ -60,12 +70,8 @@ export class TodoListComponent implements OnInit {
 
   deleteComponent(todoId: number) {
     this.deletingTodosId.push(todoId)
-    this.todoService.deleteTodo(todoId).pipe(
-      // 削除が成功したら
-      tap((deletedTodo: Todo) => {
-        // allTodoSourceを更新する
-        this.todoService.fetchAllTodo()
-      }),
+    // Observable<Todo>
+    this.deleteTodoEmittable.emit(todoId).pipe(
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Todo>('deleteTodo'))
     ).subscribe( result => {
@@ -80,7 +86,7 @@ export class TodoListComponent implements OnInit {
       {
         data:
           {
-            allCategory$: this.categoryService.allCategory$.pipe(take(1))
+            allCategory$: this.store.selectOnce(state => state.categories.allCategory)
           },
         width: '700px'
       })

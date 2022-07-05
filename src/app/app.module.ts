@@ -9,6 +9,13 @@ import { CategoryModule } from './views/category/category.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EnvironmentModule } from 'src/environments/environment';
 import { MaterialModule } from './material/material.module';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { environment } from 'src/environments/environment';
+import { TodoState } from 'src/app/models/todo/todo.state';
+import { CategoryState } from 'src/app/models/category/category.state';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsEmitPluginModule } from '@ngxs-labs/emitter';
 
 @NgModule({
   declarations: [
@@ -23,6 +30,12 @@ import { MaterialModule } from './material/material.module';
     BrowserAnimationsModule,
     EnvironmentModule,
     MaterialModule,
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsModule.forRoot([TodoState, CategoryState], {
+      developmentMode: !environment.production
+    }),
+    NgxsEmitPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

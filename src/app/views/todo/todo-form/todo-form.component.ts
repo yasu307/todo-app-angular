@@ -1,12 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { CategoryService } from 'src/app/views/category/category.service';
-import { Observable, tap, catchError, take } from 'rxjs';
-import { Category } from 'src/app/models/category';
-import { getStateFromCode, Todo } from 'src/app/models/todo';
-import { TodoService } from '../todo.service';
-import { StateOptions } from 'src/app/models/todo';
+import { Observable, catchError } from 'rxjs';
+import { Category } from 'src/app/models/category/category';
+import { getStateFromCode, Todo } from 'src/app/models/todo/todo';
+import { StateOptions } from 'src/app/models/todo/todo';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
+import { Emittable, Emitter } from '@ngxs-labs/emitter';
+import { TodoState } from 'src/app/models/todo/todo.state';
 
 @Component({
   selector: 'app-todo-form',
@@ -33,9 +33,13 @@ export class TodoFormComponent implements OnInit {
   // backendにリクエスト中かどうかを表す変数
   isRequesting: boolean = false
 
+  @Emitter(TodoState.addTodo)
+  private addTodoEmittable!: Emittable<Todo>
+
+  @Emitter(TodoState.updateTodo)
+  private updateTodoEmittable!: Emittable<Todo>
+
   constructor(
-    private todoService:     TodoService,
-    private categoryService: CategoryService,
     private errorHandler:    MyErrorHandler,
   ) { }
 
@@ -65,12 +69,8 @@ export class TodoFormComponent implements OnInit {
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにtodoを追加する
-      this.todoService.addTodo(todoFromFormVal).pipe(
-        // 追加が成功したら
-        tap((addedTodoId: any) => {
-          // allTodoSourceを更新する
-          this.todoService.fetchAllTodo()
-        }),
+      // Observable<any>
+      this.addTodoEmittable.emit(todoFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Todo>('addTodo'))
       ).subscribe(
@@ -92,12 +92,8 @@ export class TodoFormComponent implements OnInit {
       // formで指定された値をもつtodoを作成する
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにてtodoを更新する
-      this.todoService.updateTodo(todoFromFormVal).pipe(
-        // 更新が成功したら
-        tap((updatedTodo: Todo) => {
-          // allTodoSourceを更新する
-          this.todoService.fetchAllTodo()
-        }),
+      // Observable<Todo>
+      this.updateTodoEmittable.emit(todoFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Todo>('updateTodo'))
       ).subscribe(
