@@ -5,8 +5,8 @@ import { getStateFromCode, Todo } from 'src/app/models/todo/todo';
 import { StateOptions } from 'src/app/models/todo/todo';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
-import { Store } from '@ngxs/store';
-import { TodoAction } from 'src/app/models/todo/todo.actions';
+import { Emittable, Emitter } from '@ngxs-labs/emitter';
+import { TodoState } from 'src/app/models/todo/todo.state';
 
 @Component({
   selector: 'app-todo-form',
@@ -33,9 +33,14 @@ export class TodoFormComponent implements OnInit {
   // backendにリクエスト中かどうかを表す変数
   isRequesting: boolean = false
 
+  @Emitter(TodoState.addTodo)
+  private addTodoEmittable!: Emittable<Todo>
+
+  @Emitter(TodoState.updateTodo)
+  private updateTodoEmittable!: Emittable<Todo>
+
   constructor(
     private errorHandler:    MyErrorHandler,
-    private store:           Store,
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +70,7 @@ export class TodoFormComponent implements OnInit {
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにtodoを追加する
       // Observable<any>
-      this.store.dispatch(new TodoAction.Add(todoFromFormVal)).pipe(
+      this.addTodoEmittable.emit(todoFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Todo>('addTodo'))
       ).subscribe(
@@ -88,7 +93,7 @@ export class TodoFormComponent implements OnInit {
       const todoFromFormVal: Todo = this.createTodoFromFormVal()
       // DBにてtodoを更新する
       // Observable<Todo>
-      this.store.dispatch(new TodoAction.Update(todoFromFormVal)).pipe(
+      this.updateTodoEmittable.emit(todoFromFormVal).pipe(
         // エラーが発生したら処理をする
         catchError(this.errorHandler.handleError<Todo>('updateTodo'))
       ).subscribe(

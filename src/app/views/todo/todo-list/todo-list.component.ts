@@ -8,10 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TodoFormDialogComponent } from '../todo-form-dialog/todo-form-dialog.component';
 import { MyErrorHandler } from 'src/app/utility/error-handler';
 import { Select, Store } from '@ngxs/store';
-import { TodoAction } from 'src/app/models/todo/todo.actions';
 import { TodoState } from 'src/app/models/todo/todo.state';
 import { CategoryState } from 'src/app/models/category/category.state';
 import { CategoryAction } from 'src/app/models/category/category.action';
+import { Emittable, Emitter } from '@ngxs-labs/emitter';
 
 @Component({
   selector: 'app-todo-list',
@@ -21,6 +21,12 @@ import { CategoryAction } from 'src/app/models/category/category.action';
 export class TodoListComponent implements OnInit {
   @Select(TodoState.allTodo)         allTodo$?:     Observable<Todo[]>
   @Select(CategoryState.allCategory) allCategory$?: Observable<Category[]>
+
+  @Emitter(TodoState.load)
+  private loadTodoEmittable!: Emittable<void>
+
+  @Emitter(TodoState.deleteTodo)
+  private deleteTodoEmittable!: Emittable<number>
 
   faEdit       = faEdit
   faTrashAlt   = faTrashAlt
@@ -37,7 +43,7 @@ export class TodoListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new TodoAction.Load)
+    this.loadTodoEmittable.emit()
     this.store.dispatch(new CategoryAction.Load)
   }
 
@@ -63,7 +69,7 @@ export class TodoListComponent implements OnInit {
   deleteComponent(todoId: number) {
     this.deletingTodosId.push(todoId)
     // Observable<Todo>
-    this.store.dispatch(new TodoAction.Delete(todoId)).pipe(
+    this.deleteTodoEmittable.emit(todoId).pipe(
       // エラーが発生したら処理をする
       catchError(this.errorHandler.handleError<Todo>('deleteTodo'))
     ).subscribe( result => {
