@@ -6,9 +6,6 @@ import { Injectable } from "@angular/core"
 import { Emitter, EmitterAction, Receiver, Emittable } from "@ngxs-labs/emitter"
 
 export class TodoStateModel{
-  // 編集/削除中のTodoデータを持つことも可能
-  // editingTodo?:  Todo
-  // deletingTodo?: Todo[]
   allTodo?: Todo[]
 }
 

@@ -6,9 +6,6 @@ import { Injectable } from "@angular/core"
 import { Receiver, Emitter, Emittable, EmitterAction } from "@ngxs-labs/emitter"
 
 export class CategoryStateModel {
-  // 編集/削除中のCategoryデータを持つことも可能
-  // editingCategory?:  Category
-  // deletingCategory?: Category[]
   allCategory?: Category[]
 }
 
